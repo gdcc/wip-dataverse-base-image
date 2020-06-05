@@ -349,7 +349,14 @@ public class SearchServiceBean {
         Field[] staticSearchFields = searchFieldsObject.getClass().getDeclaredFields();
         String titleSolrField = null;
         try {
-            DatasetFieldType titleDatasetField = datasetFieldService.findByName(DatasetFieldConstant.title);
+            String titleString = DatasetFieldConstant.title;
+            if(BundleUtil.getCurrentLocale().getLanguage().equals("hu") || BundleUtil.getCurrentLocale().getLanguage().equals("hu-hu")){
+                titleString = DatasetFieldConstant.title + "_hu";
+            }
+            DatasetFieldType titleDatasetField = datasetFieldService.findByName(titleString);
+            if(titleDatasetField == null){
+                titleDatasetField = datasetFieldService.findByName(DatasetFieldConstant.title);
+            }
             titleSolrField = titleDatasetField.getSolrField().getNameSearchable();
         } catch (EJBTransactionRolledbackException ex) {
             logger.info("Couldn't find " + DatasetFieldConstant.title);
@@ -437,7 +444,6 @@ public class SearchServiceBean {
             solrSearchResult.setPersistentUrl(persistentUrl);
             solrSearchResult.setType(type);
             solrSearchResult.setScore(score);
-            solrSearchResult.setNameSort(nameSort);
             solrSearchResult.setReleaseOrCreateDate(release_or_create_date);
             solrSearchResult.setMatchedFields(matchedFields);
             solrSearchResult.setHighlightsAsList(highlights);
@@ -445,6 +451,12 @@ public class SearchServiceBean {
             solrSearchResult.setHighlightsAsMap(highlightsMap3);
             Map<String, String> parent = new HashMap<>();
             String description = (String) solrDocument.getFieldValue(SearchFields.DESCRIPTION);
+            if(BundleUtil.getCurrentLocale().getLanguage().equals("hu") || BundleUtil.getCurrentLocale().getLanguage().equals("hu-hu")){
+                name = (String) solrDocument.getFieldValue(SearchFields.NAME_HU);
+                nameSort = (String) solrDocument.getFieldValue(SearchFields.NAME_SORT_HU);
+                description = (String) solrDocument.getFieldValue(SearchFields.DESCRIPTION_HU);
+            }
+            solrSearchResult.setNameSort(nameSort);
             solrSearchResult.setDescriptionNoSnippet(description);
             solrSearchResult.setDeaccessionReason(deaccessionReason);
             solrSearchResult.setDvTree(dvTree);
@@ -485,7 +497,18 @@ public class SearchServiceBean {
                 /**
                  * @todo Could use getFieldValues (plural) here.
                  */
+
+                String datasetDescription = "";
+
                 List<String> datasetDescriptions = (List<String>) solrDocument.getFieldValue(SearchFields.DATASET_DESCRIPTION);
+
+                if(BundleUtil.getCurrentLocale().getLanguage().equals("hu") || BundleUtil.getCurrentLocale().getLanguage().equals("hu-hu")){
+                    List<String> hunDescList = (List<String>) solrDocument.getFieldValue(SearchFields.DATASET_DESCRIPTION_HU);
+                    if(hunDescList != null && hunDescList.size() != 0){
+                        datasetDescriptions = hunDescList;
+                    }
+                }
+
                 if (datasetDescriptions != null) {
                     String firstDatasetDescription = datasetDescriptions.get(0);
                     if (firstDatasetDescription != null) {

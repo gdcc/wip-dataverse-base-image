@@ -196,8 +196,11 @@ public class IndexServiceBean {
         solrInputDocument.addField(SearchFields.IDENTIFIER, dataverse.getAlias());
         solrInputDocument.addField(SearchFields.TYPE, "dataverses");
         solrInputDocument.addField(SearchFields.NAME, dataverse.getName());
+        solrInputDocument.addField(SearchFields.NAME_HU, dataverse.getLocalizedName());
         solrInputDocument.addField(SearchFields.NAME_SORT, dataverse.getName());
+        solrInputDocument.addField(SearchFields.NAME_SORT_HU, dataverse.getLocalizedName());
         solrInputDocument.addField(SearchFields.DATAVERSE_NAME, dataverse.getName());
+        solrInputDocument.addField(SearchFields.DATAVERSE_NAME_HU, dataverse.getLocalizedName());
         solrInputDocument.addField(SearchFields.DATAVERSE_ALIAS, dataverse.getAlias());
         solrInputDocument.addField(SearchFields.DATAVERSE_CATEGORY, dataverse.getIndexableCategoryName());
         if (dataverse.isReleased()) {
@@ -223,7 +226,9 @@ public class IndexServiceBean {
         // dataverse.getOwner().getName());
         // }
         solrInputDocument.addField(SearchFields.DESCRIPTION, StringUtil.html2text(dataverse.getDescription()));
+        solrInputDocument.addField(SearchFields.DESCRIPTION_HU, StringUtil.html2text(dataverse.getLocalizedDescription()));
         solrInputDocument.addField(SearchFields.DATAVERSE_DESCRIPTION, StringUtil.html2text(dataverse.getDescription()));
+        solrInputDocument.addField(SearchFields.DATAVERSE_DESCRIPTION_HU, StringUtil.html2text(dataverse.getLocalizedDescription()));
         // logger.info("dataverse affiliation: " + dataverse.getAffiliation());
         if (dataverse.getAffiliation() != null && !dataverse.getAffiliation().isEmpty()) {
             /**

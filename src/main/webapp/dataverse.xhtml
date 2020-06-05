@@ -16,7 +16,7 @@
             <ui:param name="dataverse" value="#{DataversePage.dataverse}"/>
             <ui:param name="editModeDataverse" value="#{DataversePage.editMode}"/>
             <ui:define name="meta_header">
-            <meta name="description" content="#{MarkupChecker:stripAllTags(DataversePage.dataverse.description)}"/>
+            <meta name="description" content="#{MarkupChecker:stripAllTags(DataversePage.dataverse.localizedDescription)}"/>
             </ui:define>
             <ui:define name="body">
                 <f:metadata>
@@ -111,6 +111,16 @@
                                 </h:outputLabel>
                                 <div class="form-col-container">
                                     <p:inputText id="name" styleClass="form-control" value="#{DataversePage.dataverse.name}" required="true"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <h:outputLabel for="name_hu" styleClass="control-label">
+                                    #{bundle['dataverse.name_hu']}
+                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"
+                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.name_hu.title']}"></span>
+                                </h:outputLabel>
+                                <div class="form-col-container">
+                                    <p:inputText id="name_hu" styleClass="form-control" value="#{DataversePage.dataverse.name_hu}"/>
                                 </div>
                             </div>
                             <div class="col-md-6 form-group">
@@ -234,6 +244,23 @@
                                                     autoResize="false">
                                     </p:inputTextarea>
                                     <p:message for="description" display="text"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <h:outputLabel for="description_hu" styleClass="control-label">
+                                    #{bundle.description_hu}
+                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"
+                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.description_hu.title']}"></span>
+                                </h:outputLabel>
+                                <div class="form-col-container">
+                                    <p class="help-block">
+                                        <h:outputText value="#{bundle.htmlAllowedMsg}" escape="false"/>
+                                    </p>
+                                    <p:inputTextarea id="description_hu" styleClass="form-control" value="#{DataversePage.dataverse.description_hu}"
+                                                     rows="6" cols="50"
+                                                     autoResize="false">
+                                    </p:inputTextarea>
+                                    <p:message for="description_hu" display="text"/>
                                 </div>
                             </div>
                         </div>
@@ -558,9 +585,9 @@
                         </div>
                         <ui:fragment rendered="#{SearchIncludeFragment.filterQueries.size() == 0 and SearchIncludeFragment.mode != SearchIncludeFragment.searchModeString}">
                             <o:importFunctions type="edu.harvard.iq.dataverse.util.MarkupChecker" />
-                            <div class="row margin-bottom" jsf:rendered="#{!empty DataversePage.dataverse.description and !widgetWrapper.widgetView}">
+                            <div class="row margin-bottom" jsf:rendered="#{!empty DataversePage.dataverse.localizedDescription and !widgetWrapper.widgetView}">
                                 <div id="dataverseDesc" class="col-xs-12">
-                                    <h:outputText value="#{MarkupChecker:sanitizeBasicHTML(DataversePage.dataverse.description)}" escape="false"/>
+                                    <h:outputText value="#{MarkupChecker:sanitizeBasicHTML(DataversePage.dataverse.localizedDescription)}" escape="false"/>
                                 </div>
                             </div>
                             <!-- Featured Dataverses Carousel -->

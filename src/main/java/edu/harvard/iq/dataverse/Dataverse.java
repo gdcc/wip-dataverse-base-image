@@ -5,12 +5,8 @@ import edu.harvard.iq.dataverse.authorization.DataverseRole;
 import edu.harvard.iq.dataverse.dataaccess.DataAccess;
 import edu.harvard.iq.dataverse.search.savedsearch.SavedSearch;
 import edu.harvard.iq.dataverse.util.BundleUtil;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+
+import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,6 +62,22 @@ import org.hibernate.validator.constraints.NotEmpty;
 		, @Index(columnList="themeroot")})
 public class Dataverse extends DvObjectContainer {
 
+    public String getName_hu() {
+        return name_hu;
+    }
+
+    public void setName_hu(String name_hu) {
+        this.name_hu = name_hu;
+    }
+
+    public String getDescription_hu() {
+        return description_hu;
+    }
+
+    public void setDescription_hu(String description_hu) {
+        this.description_hu = description_hu;
+    }
+
     public enum DataverseType {
         RESEARCHERS, RESEARCH_PROJECTS, JOURNALS, ORGANIZATIONS_INSTITUTIONS, TEACHING_COURSES, UNCATEGORIZED, LABORATORY, RESEARCH_GROUP, DEPARTMENT
     };
@@ -75,6 +87,8 @@ public class Dataverse extends DvObjectContainer {
     @NotBlank(message = "{dataverse.name}")
     @Column( nullable = false )
     private String name;
+    
+    private String name_hu;
 
     /**
      * @todo add @Column(nullable = false) for the database to enforce non-null
@@ -88,6 +102,9 @@ public class Dataverse extends DvObjectContainer {
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "description_hu", columnDefinition = "TEXT")
+    private String description_hu;
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "{dataverse.category}")
@@ -789,4 +806,30 @@ public class Dataverse extends DvObjectContainer {
 		  this.storageDriver = storageDriver;
 		}
 	}
+
+	public String getLocalizedName(){
+        String lang = BundleUtil.getCurrentLocale().getLanguage();
+        if("hu".equals(lang) && this.name_hu != null){
+            return this.name_hu;
+        }
+//        String localizedField = "name_" + lang;
+//        if(Arrays.stream(this.getClass().getFields())
+//                .anyMatch(f -> f.getName().equals(localizedField))){
+//            try {
+//                return this.getClass().getField(localizedField).get(this).toString();
+//            } catch (IllegalAccessException | NoSuchFieldException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        return this.name;
+//        return "LocName";
+    }
+
+    public String getLocalizedDescription(){
+        String lang = BundleUtil.getCurrentLocale().getLanguage();
+        if("hu".equals(lang) && this.description_hu != null){
+            return this.description_hu;
+        }
+        return this.description;
+    }
 }

@@ -15,4 +15,5 @@
         <description descriptionType="Abstract">${description}</description>
     </descriptions>
     <contributors>{$contributors}</contributors>
+    <test>Ez meg teszt</test>
 </resource>

@@ -62,6 +62,7 @@ public class SearchFields {
      */
     public static final String DATAVERSE_VERSION_INDEXED_BY = "dataverseVersionIndexedBy_s";
     public static final String NAME = "name";
+    public static final String NAME_HU = "name_hu";
     /**
      * @todo Do we want to support finding dataverses, datasets, and files with
      * a query for description:foo? Maybe not, since people will probably just
@@ -72,6 +73,7 @@ public class SearchFields {
      * See also https://redmine.hmdc.harvard.edu/issues/3745
      */
     public static final String DESCRIPTION = "description";
+    public static final String DESCRIPTION_HU = "description_hu";
     /**
      * Identifiers differ per DvObject: alias for dataverses, globalId for
      * datasets, and database id for files.
@@ -93,9 +95,11 @@ public class SearchFields {
     public static final String PERSISTENT_URL = "persistentUrl";
     public static final String UNF = "unf";
     public static final String DATAVERSE_NAME = "dvName";
+    public static final String DATAVERSE_NAME_HU = "dvName_hu";
     public static final String DATAVERSE_ALIAS = "dvAlias";
     public static final String DATAVERSE_AFFILIATION = "dvAffiliation";
     public static final String DATAVERSE_DESCRIPTION = "dvDescription";
+    public static final String DATAVERSE_DESCRIPTION_HU = "dvDescription_hu";
     public static final String DATAVERSE_CATEGORY = "dvCategory";
     
     /**
@@ -207,6 +211,7 @@ public class SearchFields {
      */
     public static final String TYPE = "dvObjectType";
     public static final String NAME_SORT = "nameSort";
+    public static final String NAME_SORT_HU = "nameSort_hu";
     // PUBLICATION_YEAR used to be called PUBLICATION_DATE.
     public static final String PUBLICATION_YEAR = "publicationDate";
     public static final String RELEASE_OR_CREATE_DATE = "dateSort"; 
@@ -235,6 +240,7 @@ public class SearchFields {
     public static final String PARENT_CITATION = "parentCitation";
 
     public static final String DATASET_DESCRIPTION = "dsDescriptionValue";
+    public static final String DATASET_DESCRIPTION_HU = "dsDescriptionValue_hu";
     /**
      * In Datavese 4.3 and earlier "citation" was indexed as the "online" or
      * HTML version, with the DOI link wrapped in an href tag but now it's the

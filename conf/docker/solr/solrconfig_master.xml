@@ -697,9 +697,11 @@
       <float name="tie">0.075</float>
         <str name="qf">
             dvName^400
+            dvName_hu^400
             authorName^180
             dvSubject^190
             dvDescription^180
+            dvDescription_hu^180
             dvAffiliation^170
             title^130
             subject^120
@@ -717,9 +719,11 @@
         </str>
         <str name="pf">
             dvName^200
+            dvName_hu^200
             authorName^100
             dvSubject^100
             dvDescription^100
+            dvDescription_hu^100
             dvAffiliation^100
             title^75
             subject^75

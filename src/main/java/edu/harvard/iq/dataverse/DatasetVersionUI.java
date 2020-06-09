@@ -5,6 +5,7 @@
  */
 package edu.harvard.iq.dataverse;
 
+import edu.harvard.iq.dataverse.util.BundleUtil;
 import edu.harvard.iq.dataverse.util.MarkupChecker;
 import edu.harvard.iq.dataverse.util.StringUtil;
 import java.io.Serializable;
@@ -71,8 +72,16 @@ public class DatasetVersionUI implements Serializable {
         // loop through vaues to get fields for view mode
         for (DatasetField dsf : datasetVersion.getDatasetFields()) {
             //Special Handling for various fields displayed above tabs in dataset page view.
-            if (dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.title)) {
-                setTitle(dsf);
+            if (dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.title) || dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.title_hu)) {
+                if(("hu".equals(BundleUtil.getCurrentLocale().getLanguage()) || "hu-hu".equals(BundleUtil.getCurrentLocale().getLanguage()))
+                && dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.title_hu)
+                && !dsf.getValues().isEmpty()){
+                    setTitle(dsf);
+                }
+
+                if(dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.title) && getTitle() == null){
+                    setTitle(dsf);
+                }
             } else if (dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.description)) {
                 setDescription(dsf);
                 String descriptionString = "";

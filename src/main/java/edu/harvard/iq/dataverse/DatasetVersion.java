@@ -1,12 +1,8 @@
 package edu.harvard.iq.dataverse;
 
-import edu.harvard.iq.dataverse.util.MarkupChecker;
+import edu.harvard.iq.dataverse.util.*;
 import edu.harvard.iq.dataverse.DatasetFieldType.FieldType;
 import edu.harvard.iq.dataverse.branding.BrandingUtil;
-import edu.harvard.iq.dataverse.util.FileUtil;
-import edu.harvard.iq.dataverse.util.StringUtil;
-import edu.harvard.iq.dataverse.util.SystemConfig;
-import edu.harvard.iq.dataverse.util.DateUtil;
 import edu.harvard.iq.dataverse.util.json.NullSafeJsonBuilder;
 import edu.harvard.iq.dataverse.workflows.WorkflowComment;
 import java.io.Serializable;
@@ -667,7 +663,13 @@ public class DatasetVersion implements Serializable {
     public String getTitle() {
         String retVal = "";
         for (DatasetField dsfv : this.getDatasetFields()) {
-            if (dsfv.getDatasetFieldType().getName().equals(DatasetFieldConstant.title)) {
+            if(dsfv.getDatasetFieldType().getName().equals(DatasetFieldConstant.title_hu)
+                    && ("hu".equals(BundleUtil.getCurrentLocale().getLanguage()) || "hu-hu".equals(BundleUtil.getCurrentLocale().getLanguage()))
+                    && !dsfv.getDisplayValue().isEmpty()){
+                retVal = dsfv.getDisplayValue();
+
+            }
+            if (dsfv.getDatasetFieldType().getName().equals(DatasetFieldConstant.title) && retVal.isEmpty()) {
                 retVal = dsfv.getDisplayValue();
             }
         }

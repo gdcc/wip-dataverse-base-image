@@ -751,7 +751,7 @@ public class Dataverse extends DvObjectContainer {
     
     @Override
     public String getDisplayName() {
-        return getName();
+        return getLocalizedName(); //getName();
     }
     
     @Override
@@ -809,7 +809,7 @@ public class Dataverse extends DvObjectContainer {
 
 	public String getLocalizedName(){
         String lang = BundleUtil.getCurrentLocale().getLanguage();
-        if("hu".equals(lang) && this.name_hu != null){
+        if(("hu".equals(lang) || "hu-hu".equals(lang)) && this.name_hu != null){
             return this.name_hu;
         }
 //        String localizedField = "name_" + lang;

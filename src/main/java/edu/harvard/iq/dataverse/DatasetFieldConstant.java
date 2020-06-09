@@ -48,6 +48,7 @@ public class DatasetFieldConstant implements java.io.Serializable  {
     
     
     public final static String title = "title";
+    public final static String title_hu = "title_hu";
     public final static String subTitle="subtitle"; //SEK 6-7-2016 to match what is in DB
     public final static String alternativeTitle="alternativeTitle"; //missing from class
     public final static String datasetId = "datasetId";

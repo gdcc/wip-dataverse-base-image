@@ -348,15 +348,15 @@ public class SearchServiceBean {
         Object searchFieldsObject = new SearchFields();
         Field[] staticSearchFields = searchFieldsObject.getClass().getDeclaredFields();
         String titleSolrField = null;
+        String localizedTitleSolrField = null;
         try {
             String titleString = DatasetFieldConstant.title;
             if(BundleUtil.getCurrentLocale().getLanguage().equals("hu") || BundleUtil.getCurrentLocale().getLanguage().equals("hu-hu")){
-                titleString = DatasetFieldConstant.title + "_hu";
+                String localizedTitleString = DatasetFieldConstant.title + "_hu";
+                DatasetFieldType localizedTitleDatasetField = datasetFieldService.findByName(localizedTitleString);
+                localizedTitleSolrField = localizedTitleDatasetField.getSolrField().getNameSearchable();
             }
             DatasetFieldType titleDatasetField = datasetFieldService.findByName(titleString);
-            if(titleDatasetField == null){
-                titleDatasetField = datasetFieldService.findByName(DatasetFieldConstant.title);
-            }
             titleSolrField = titleDatasetField.getSolrField().getNameSearchable();
         } catch (EJBTransactionRolledbackException ex) {
             logger.info("Couldn't find " + DatasetFieldConstant.title);
@@ -384,7 +384,15 @@ public class SearchServiceBean {
             String name = (String) solrDocument.getFieldValue(SearchFields.NAME);
             String nameSort = (String) solrDocument.getFieldValue(SearchFields.NAME_SORT);
 //            ArrayList titles = (ArrayList) solrDocument.getFieldValues(SearchFields.TITLE);
-            String title = (String) solrDocument.getFieldValue(titleSolrField);
+            String title = null;
+            if(localizedTitleSolrField != null){
+                title = (String) solrDocument.getFieldValue(localizedTitleSolrField);
+                if(title == null){
+                    title = (String) solrDocument.getFieldValue(titleSolrField);
+                }
+            }else{
+                title = (String) solrDocument.getFieldValue(titleSolrField);
+            }
             Long datasetVersionId = (Long) solrDocument.getFieldValue(SearchFields.DATASET_VERSION_ID);
             String deaccessionReason = (String) solrDocument.getFieldValue(SearchFields.DATASET_DEACCESSION_REASON);
 //            logger.info("titleSolrField: " + titleSolrField);

@@ -148,9 +148,11 @@
     <field name="fileDeleted" type="boolean" stored="true" indexed="true" multiValued="false"/>
 
     <field name="dvName" type="text_en" stored="true" indexed="true" multiValued="false"/>
+    <field name="dvName_hu" type="text_en" stored="true" indexed="true" multiValued="false"/>
     <field name="dvAlias" type="text_en" stored="true" indexed="true" multiValued="false"/>
     <field name="dvAffiliation" type="text_en" stored="true" indexed="true" multiValued="false"/>
     <field name="dvDescription" type="text_en" stored="true" indexed="true" multiValued="false"/>
+    <field name="dvDescription_hu" type="text_en" stored="true" indexed="true" multiValued="false"/>
 
     <field name="dvCategory" type="string" stored="true" indexed="true" multiValued="false"/>
     <field name="categoryOfDataverse" type="string" stored="true" indexed="true" multiValued="false"/>

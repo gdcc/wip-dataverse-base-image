@@ -215,6 +215,7 @@
     <!-- 'Sorting can be done on the "score" of the document, or on any multiValued="false" indexed="true" field provided that field is either non-tokenized (ie: has no Analyzer) or uses an Analyzer that only produces a single Term (ie: uses the KeywordTokenizer)' http://wiki.apache.org/solr/CommonQueryParameters#sort -->
     <!-- http://stackoverflow.com/questions/13360706/solr-4-0-alphabetical-sorting-trouble/13361226#13361226 -->
     <field name="nameSort" type="alphaOnlySort" indexed="true" stored="true"/>
+    <field name="nameSort_hu" type="alphaOnlySort" indexed="true" stored="true"/>
 
     <field name="dateSort" type="date" indexed="true" stored="true"/>
 
@@ -232,6 +233,7 @@
     <field name="title_hu" type="text_hu" multiValued="false" stored="true" indexed="true"/>
     <field name="dsDescriptionValue_hu" type="text_hu" multiValued="true" stored="true" indexed="true"/>
     <field name="dsDescriptionDate_hu" type="date" stored="true" indexed="true"/>
+
     
     <!-- Dynamic Dataverse fields from http://localhost:8080/api/admin/index/solr/schema -->
     <xi:include href="schema_dv_mdb_fields.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />

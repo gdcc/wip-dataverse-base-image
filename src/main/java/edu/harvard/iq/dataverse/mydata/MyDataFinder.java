@@ -21,6 +21,8 @@ import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+
+import edu.harvard.iq.dataverse.util.BundleUtil;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -424,17 +426,18 @@ public class MyDataFinder {
         //logger.info("runStep1RoleAssignments results: " + results.toString());
 
         if (results == null){
-            this.addErrorMessage("Sorry, the EntityManager isn't working (still).");
+//            this.addErrorMessage("Sorry, the EntityManager isn't working (still).");
+            this.addErrorMessage(BundleUtil.getStringFromBundle("mydata.error.em"));
             return false;
         }else if (results.isEmpty()){
             List<String> roleNames = this.rolePermissionHelper.getRoleNamesByIdList(this.filterParams.getRoleIds());
             if ((roleNames == null)||(roleNames.isEmpty())){
-                this.addErrorMessage("Sorry, you have no assigned roles.");
+                this.addErrorMessage(BundleUtil.getStringFromBundle("mydata.error.noAssignedRoles"));
             }else{
                 if (roleNames.size()==1){
-                    this.addErrorMessage("Sorry, nothing was found for this role: " + StringUtils.join(roleNames, ", "));
+                    this.addErrorMessage(BundleUtil.getStringFromBundle("mydata.error.nothingFound") + " " + StringUtils.join(roleNames, ", "));
                 }else{
-                    this.addErrorMessage("Sorry, nothing was found for these roles: " + StringUtils.join(roleNames, ", "));
+                    this.addErrorMessage(BundleUtil.getStringFromBundle("mydata.error.nothingFound2") + " " + StringUtils.join(roleNames, ", "));
                 }
             }
             return false;

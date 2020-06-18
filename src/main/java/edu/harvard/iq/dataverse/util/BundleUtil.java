@@ -117,6 +117,18 @@ public class BundleUtil {
         return loader;
     }
 
+    private static final ThreadLocal < String > threadLang =
+            new ThreadLocal < String > () {
+                @Override protected String initialValue() {
+                    return null;
+                }
+            };
+
+    public static void setLanguage(String lang){
+        threadLang.set(lang.trim());
+    }
+
+
     public static Locale getCurrentLocale() {
         if (FacesContext.getCurrentInstance() == null) {
             String localeEnvVar = System.getenv().get("LANG");
@@ -130,7 +142,14 @@ public class BundleUtil {
                 }
             }
 
-            return new Locale("en");
+            if(threadLang.get() == null) {
+                return new Locale("en");
+            }else{
+                if(!threadLang.get().equals("en")){
+                    Logger.getLogger("BundleUtil").info(threadLang.get());
+                }
+                return new Locale(threadLang.get());
+            }
         } else if (FacesContext.getCurrentInstance().getViewRoot() == null) {
             return FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
         } else if (FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("en_US")) {

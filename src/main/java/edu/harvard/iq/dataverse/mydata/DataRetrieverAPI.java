@@ -270,14 +270,13 @@ public class DataRetrieverAPI extends AbstractApiBean {
             @QueryParam("mydata_search_term") String searchTerm,             
             @QueryParam("role_ids") List<Long> roleIds, 
             @QueryParam("userIdentifier") String userIdentifier,
-            @QueryParam("key") String apiToken) { //String myDataParams) {
+            @QueryParam("key") String apiToken,
+            @QueryParam("lang") String lang) { //String myDataParams) {
         //System.out.println("_YE_OLDE_QUERY_COUNTER_");
         //msgt("_YE_OLDE_QUERY_COUNTER_");  // for debug purposes
         boolean DEBUG_MODE = false;
         boolean OTHER_USER = false;
-
-
-        
+        BundleUtil.setLanguage(lang);
         // For, superusers, the searchUser may differ from the authUser
         //
         AuthenticatedUser searchUser = null;  

@@ -695,6 +695,10 @@ public class SearchServiceBean {
                     // give it the non-friendly name so we remember to update the reference data script for datasets
                     facetCategory.setName(facetField.getName());
                 } else if (solrFieldNameForDataset != null && facetField.getName().equals(solrFieldNameForDataset)) {
+                    String localizedName = BundleUtil.getStringFromBundle("dynamicSearchFields."+ facetField.getName());
+                    if(localizedName != null){
+                        friendlyName = localizedName;
+                    }
                     if (friendlyName != null && !friendlyName.isEmpty()) {
                         facetCategory.setFriendlyName(friendlyName);
                         // stop examining available dataset fields. we found a match

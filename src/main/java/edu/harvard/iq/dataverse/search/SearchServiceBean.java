@@ -652,7 +652,7 @@ public class SearchServiceBean {
                        localefriendlyName = getLocaleTitle(datasetFieldName,facetFieldCount.getName(), metadataBlockName);
                     } else {
                        try {
-                           localefriendlyName = BundleUtil.getStringFromPropertyFile(facetFieldCount.getName(), "Bundle");
+                           localefriendlyName = BundleUtil.getStringFromPropertyFile(facetFieldCount.getName().trim(), "Bundle");
                        } catch (Exception e) {
                            localefriendlyName = facetFieldCount.getName();
                        }

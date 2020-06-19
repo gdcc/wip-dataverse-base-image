@@ -1425,7 +1425,7 @@ public class DatasetPage implements java.io.Serializable {
 
     public String getDisplayCitation() {
         //displayCitation = dataset.getCitation(false, workingVersion);
-        return displayCitation;
+        return displayCitation.replaceAll("<a.*https:\\/\\/doi.org.*<\\/a>, ", "");
     }
 
     public void setDisplayCitation(String displayCitation) {

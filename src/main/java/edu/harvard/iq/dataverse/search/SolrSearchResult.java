@@ -911,7 +911,7 @@ public class SolrSearchResult {
     }
 
     public void setCitationHtml(String citationHtml) {
-        this.citationHtml = citationHtml;
+        this.citationHtml = citationHtml.replaceAll("<a.*https:\\/\\/doi.org.*<\\/a>, ", "");
     }
 
     public String getFiletype() {

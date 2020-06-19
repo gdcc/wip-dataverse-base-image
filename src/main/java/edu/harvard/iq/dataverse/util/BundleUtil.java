@@ -132,7 +132,7 @@ public class BundleUtil {
     public static Locale getCurrentLocale() {
         if (FacesContext.getCurrentInstance() == null) {
             String localeEnvVar = System.getenv().get("LANG");
-            if (localeEnvVar != null) {
+            if (localeEnvVar != null && threadLang.get() == null) {
                 if (localeEnvVar.indexOf('.') > 0) {
                     localeEnvVar = localeEnvVar.substring(0, localeEnvVar.indexOf('.'));
                 }

@@ -664,7 +664,7 @@ public class DatasetVersion implements Serializable {
         String retVal = "";
         for (DatasetField dsfv : this.getDatasetFields()) {
             if(dsfv.getDatasetFieldType().getName().equals(DatasetFieldConstant.title_hu)
-                    && ("hu".equals(BundleUtil.getCurrentLocale().getLanguage()) || "hu-hu".equals(BundleUtil.getCurrentLocale().getLanguage()))
+                    && ("hu".equals(BundleUtil.getStringFromBundle("lang")))
                     && !dsfv.getDisplayValue().isEmpty()){
                 retVal = dsfv.getDisplayValue();
 

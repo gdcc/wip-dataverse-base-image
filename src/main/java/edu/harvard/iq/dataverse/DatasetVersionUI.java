@@ -73,7 +73,7 @@ public class DatasetVersionUI implements Serializable {
         for (DatasetField dsf : datasetVersion.getDatasetFields()) {
             //Special Handling for various fields displayed above tabs in dataset page view.
             if (dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.title) || dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.title_hu)) {
-                if(("hu".equals(BundleUtil.getCurrentLocale().getLanguage()) || "hu-hu".equals(BundleUtil.getCurrentLocale().getLanguage()))
+                if("hu".equals(BundleUtil.getStringFromBundle("lang"))
                 && dsf.getDatasetFieldType().getName().equals(DatasetFieldConstant.title_hu)
                 && !dsf.getValues().isEmpty()){
                     setTitle(dsf);

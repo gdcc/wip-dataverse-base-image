@@ -351,7 +351,7 @@ public class SearchServiceBean {
         String localizedTitleSolrField = null;
         try {
             String titleString = DatasetFieldConstant.title;
-            if(BundleUtil.getCurrentLocale().getLanguage().equals("hu") || BundleUtil.getCurrentLocale().getLanguage().equals("hu-hu")){
+            if("hu".equals(BundleUtil.getStringFromBundle("lang"))){
                 String localizedTitleString = DatasetFieldConstant.title + "_hu";
                 DatasetFieldType localizedTitleDatasetField = datasetFieldService.findByName(localizedTitleString);
                 localizedTitleSolrField = localizedTitleDatasetField.getSolrField().getNameSearchable();
@@ -459,7 +459,7 @@ public class SearchServiceBean {
             solrSearchResult.setHighlightsAsMap(highlightsMap3);
             Map<String, String> parent = new HashMap<>();
             String description = (String) solrDocument.getFieldValue(SearchFields.DESCRIPTION);
-            if(BundleUtil.getCurrentLocale().getLanguage().equals("hu") || BundleUtil.getCurrentLocale().getLanguage().equals("hu-hu")){
+            if("hu".equals(BundleUtil.getStringFromBundle("lang"))){
                 name = (String) solrDocument.getFieldValue(SearchFields.NAME_HU);
                 nameSort = (String) solrDocument.getFieldValue(SearchFields.NAME_SORT_HU);
                 description = (String) solrDocument.getFieldValue(SearchFields.DESCRIPTION_HU);
@@ -510,7 +510,7 @@ public class SearchServiceBean {
 
                 List<String> datasetDescriptions = (List<String>) solrDocument.getFieldValue(SearchFields.DATASET_DESCRIPTION);
 
-                if(BundleUtil.getCurrentLocale().getLanguage().equals("hu") || BundleUtil.getCurrentLocale().getLanguage().equals("hu-hu")){
+                if("hu".equals(BundleUtil.getStringFromBundle("lang"))){
                     List<String> hunDescList = (List<String>) solrDocument.getFieldValue(SearchFields.DATASET_DESCRIPTION_HU);
                     if(hunDescList != null && hunDescList.size() != 0){
                         datasetDescriptions = hunDescList;

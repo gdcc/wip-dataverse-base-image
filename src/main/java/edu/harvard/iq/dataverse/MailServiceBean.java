@@ -124,6 +124,7 @@ public class MailServiceBean implements java.io.Serializable {
         String rootDataverseName = dataverseService.findRootDataverse().getName();
         InternetAddress systemAddress = getSystemAddress();
         String body = messageText + BundleUtil.getStringFromBundle("notification.email.closing", Arrays.asList(BrandingUtil.getSupportTeamEmailAddress(systemAddress), BrandingUtil.getSupportTeamName(systemAddress, rootDataverseName)));
+        body = body.replace("\\n", "\n");
         logger.fine("Sending email to " + to + ". Subject: <<<" + subject + ">>>. Body: " + body);
         try {
             MimeMessage msg = new MimeMessage(session);
@@ -174,7 +175,7 @@ public class MailServiceBean implements java.io.Serializable {
 
     //@Resource(name="mail/notifyMailSession")
     public void sendMail(String from, String to, String subject, String messageText) {
-        sendMail(from, to, subject, messageText, new HashMap<>());
+        sendMail(from, to, subject, messageText.replace("\\n", "\n"), new HashMap<>());
     }
 
     public void sendMail(String reply, String to, String subject, String messageText, Map<Object, Object> extraHeaders) {
@@ -240,7 +241,7 @@ public class MailServiceBean implements java.io.Serializable {
         if (emailAddress != null){
            Object objectOfNotification =  getObjectOfNotification(notification);
            if (objectOfNotification != null){
-               String messageText = getMessageTextBasedOnNotification(notification, objectOfNotification, comment, requestor);
+               String messageText = getMessageTextBasedOnNotification(notification, objectOfNotification, comment, requestor).replace("\\n", "\n");
                String rootDataverseName = dataverseService.findRootDataverse().getName();
                String subjectText = MailUtil.getSubjectTextBasedOnNotification(notification, rootDataverseName, objectOfNotification);
                if (!(messageText.isEmpty() || subjectText.isEmpty())){

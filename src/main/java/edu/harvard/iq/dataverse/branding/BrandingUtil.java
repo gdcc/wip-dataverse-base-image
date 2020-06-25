@@ -10,7 +10,15 @@ public class BrandingUtil {
         return rootDataverseName;
     }
 
-    public static String getSupportTeamName(InternetAddress systemAddress, String rootDataverseName) {
+    public static String getSupportTeamName(InternetAddress systemAddress, String rootDataverseName){
+        return getSupportTeamName(systemAddress, rootDataverseName, false);
+    }
+
+    public static String getSupportTeamName(InternetAddress systemAddress, String rootDataverseName, boolean alternativeValue) {
+        String contactKey = "contact.support";
+        if(alternativeValue){
+            contactKey = "contact.support2";
+        }
         if (systemAddress != null) {
             String personalName = systemAddress.getPersonal();
             if (personalName != null) {
@@ -18,10 +26,10 @@ public class BrandingUtil {
             }
         }
         if (rootDataverseName != null && !rootDataverseName.isEmpty()) {
-            return rootDataverseName + " " + BundleUtil.getStringFromBundle("contact.support");
+            return rootDataverseName + " " + BundleUtil.getStringFromBundle(contactKey);
         }
         String saneDefault = BundleUtil.getStringFromBundle("dataverse");
-        return BundleUtil.getStringFromBundle("contact.support", Arrays.asList(saneDefault));
+        return BundleUtil.getStringFromBundle(contactKey, Arrays.asList(saneDefault));
     }
 
     public static String getSupportTeamEmailAddress(InternetAddress systemAddress) {

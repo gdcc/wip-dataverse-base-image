@@ -361,7 +361,7 @@
                                         <p class="help-block">
                                             <h:outputText value="#{bundle['user.isShibUser']}" />
                                             <h:outputText value=" #{bundle['user.helpShibUserMigrateOffShibBeforeLink']} " />
-                                            <p:commandLink value="#{settingsWrapper.supportTeamName}" oncomplete="PF('contactForm').show()" update=":contactDialog" actionListener="#{sendFeedbackDialog.initUserInput}">
+                                            <p:commandLink value="#{settingsWrapper.supportTeamName2}" oncomplete="PF('contactForm').show()" update=":contactDialog" actionListener="#{sendFeedbackDialog.initUserInput}">
                                                 <f:setPropertyActionListener target="#{sendFeedbackDialog.messageSubject}" value=""/>
                                                 <f:setPropertyActionListener target="#{sendFeedbackDialog.recipient}" value="#{null}"/>
                                                 <f:setPropertyActionListener target="#{sendFeedbackDialog.userMessage}" value=""/>
@@ -377,7 +377,7 @@
                                             <h:outputFormat value="#{bundle['user.helpOAuthBeforeLink']} ">
                                                 <f:param value="#{DataverseUserPage.userAuthProvider.info.title}"/>
                                             </h:outputFormat>
-                                            <p:commandLink value="#{settingsWrapper.supportTeamName}" oncomplete="PF('contactForm').show()" update=":contactDialog" actionListener="#{sendFeedbackDialog.initUserInput}">
+                                            <p:commandLink value="#{settingsWrapper.supportTeamName2}" oncomplete="PF('contactForm').show()" update=":contactDialog" actionListener="#{sendFeedbackDialog.initUserInput}">
                                                 <f:setPropertyActionListener target="#{sendFeedbackDialog.messageSubject}" value=""/>
                                                 <f:setPropertyActionListener target="#{sendFeedbackDialog.recipient}" value="#{null}"/>
                                                 <f:setPropertyActionListener target="#{sendFeedbackDialog.userMessage}" value=""/>

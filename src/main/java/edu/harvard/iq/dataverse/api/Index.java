@@ -539,7 +539,7 @@ public class Index extends AbstractApiBean {
             String nameFacetable = datasetField.getSolrField().getNameFacetable();
 
             if (listOfStaticFields.contains(nameSearchable)) {
-                if (nameSearchable.equals(SearchFields.DATASET_DESCRIPTION)) {
+                if (nameSearchable.equals(SearchFields.DATASET_DESCRIPTION) || nameSearchable.equals(SearchFields.DATASET_DESCRIPTION_HU)) {
                     // Skip, expected conflct.
                 } else {
                     return error("searchable dataset metadata field conflict detected with static field: " + nameSearchable);

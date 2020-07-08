@@ -11,12 +11,13 @@
     xmlns:o="http://omnifaces.org/ui"
     xmlns:iqbs="http://xmlns.jcp.org/jsf/composite/iqbs">
 
-    <ui:fragment rendered="#{fileMetadata.dataFile.ingestProblem and canUpdateDataset}">
-        <!-- Ingest Problem - this is the infamous "red triangle" error. As of 4.2, we only want to show it to the owner of the dataset: -->
-        <span class="ingest-warning" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="left" data-html="true" data-title="&lt;span class='text-danger h5'&gt;#{bundle['file.ingestFailed.header']}&lt;/span&gt;" data-content="&lt;span class='text-danger'&gt;#{bundle['file.ingestFailed.message']} #{fileMetadata.dataFile.ingestReportMessage}&lt;/span&gt;">
-            <span class="glyphicon glyphicon-warning-sign text-danger"/>
-        </span>
-    </ui:fragment>
+<!--    Previewer is used to show tabular data. We do not want to show red triangle if ingesting goes wrong. Maybe later we find out why the ingest plugin fails with duplicate names in the header, but not now.-->
+<!--    <ui:fragment rendered="#{fileMetadata.dataFile.ingestProblem and canUpdateDataset}">-->
+<!--        &lt;!&ndash; Ingest Problem - this is the infamous "red triangle" error. As of 4.2, we only want to show it to the owner of the dataset: &ndash;&gt;-->
+<!--        <span class="ingest-warning" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="left" data-html="true" data-title="&lt;span class='text-danger h5'&gt;#{bundle['file.ingestFailed.header']}&lt;/span&gt;" data-content="&lt;span class='text-danger'&gt;#{bundle['file.ingestFailed.message']} #{fileMetadata.dataFile.ingestReportMessage}&lt;/span&gt;">-->
+<!--            <span class="glyphicon glyphicon-warning-sign text-danger"/>-->
+<!--        </span>-->
+<!--    </ui:fragment>-->
 
     <!--"Explore" button (dropdown of tools)-->
     <!--exploreTools is set as a ui:param by the file and dataset pages-->

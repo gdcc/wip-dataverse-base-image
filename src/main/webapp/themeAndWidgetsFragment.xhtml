@@ -105,136 +105,136 @@
                             </div>
                         </div>
                     </div>
-                    <ui:fragment rendered="#{themeWidgetFragment.editDv.themeRoot}">
-                        <div class="row form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">
-                                    #{bundle['dataverse.theme.headerColor']}
-                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.headerColor.tip']}"></span>
-                                </label>
-                                <div class="form-group col-sm-9">
-                                    <div class="form-col-container col-sm-4">
-                                        <label for="backgroundColor" class="control-label">
-                                            #{bundle['dataverse.theme.backColor']}
-                                            <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                                  data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.backColor.title']}"></span>
-                                        </label>
-                                        <div>
-                                            <p:colorPicker id="backgroundColor" value="#{themeWidgetFragment.editDv.dataverseTheme.backgroundColor}"/>
-                                            <p:message for="backgroundColor" display="text"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-col-container col-sm-4">
-                                        <label for="linkColor" class="control-label">
-                                            #{bundle['dataverse.theme.linkColor']}
-                                            <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                                  data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.linkColor.title']}"></span>
-                                        </label>
-                                        <div>
-                                            <p:colorPicker id="linkColor" value="#{themeWidgetFragment.editDv.dataverseTheme.linkColor}"/>
-                                            <p:message for="linkColor" display="text"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-col-container col-sm-4">
-                                        <label for="textColor" class="control-label">
-                                            #{bundle['dataverse.theme.txtColor']}
-                                            <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                                  data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.txtColor.title']}"></span>
-                                        </label>
-                                        <div>
-                                            <p:colorPicker id="textColor" value="#{themeWidgetFragment.editDv.dataverseTheme.textColor}"/>
-                                            <p:message for="textColor" display="text"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="tagline">
-                                    #{bundle['dataverse.theme.tagline']}
-                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.tagline.title']}"></span>
-                                </label>
-                                <h:inputHidden id="linkAndUrl" value="true">
-                                    <f:validator validatorId="linkValidator"/>
-                                    <f:attribute name="linkUrlInput" value="#{themeWidgetFragment.linkUrlInput}"/>
-                                    <f:attribute name="taglineInput" value="#{themeWidgetFragment.taglineInput}"/>
-                                </h:inputHidden>
-                                <div class="col-sm-8">
-                                    <p class="help-block">#{bundle['dataverse.theme.tagline.tip']}</p>
-                                    <p:inputText id="tagline" styleClass="form-control" binding="#{themeWidgetFragment.taglineInput}" validator="#{themeWidgetFragment.validateTagline}" value="#{themeWidgetFragment.editDv.dataverseTheme.tagline}"/>
-                                    <p:message for="tagline" display="text"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" for="website">
-                                    #{bundle['dataverse.theme.website']}
-                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.website.title']}"></span>
-                                </label>
-                                <div class="col-sm-6">
-                                    <p class="help-block">#{bundle['dataverse.theme.website.tip']}</p>
-                                    <p:inputText id="website" styleClass="form-control" binding="#{themeWidgetFragment.linkUrlInput}" validatorMessage="#{bundle['dataverse.theme.website.invalidMsg']}" validator="#{themeWidgetFragment.validateUrl}" value="#{themeWidgetFragment.editDv.dataverseTheme.linkUrl}"/>
-                                    <p:watermark for="website" value="#{bundle['dataverse.theme.website.watermark']}" id="watermark" />
-                                    <p:message for="website" display="text"/>
-                                </div>
-                            </div>
-                            <!-- Dataverse footer logo -->
-                            <div class="form-group" jsf:rendered="#{themeWidgetFragment.editDv.themeRoot}">
-                                <label class="col-sm-3 control-label" for="logoFormat">
-                                    #{bundle['dataverse.theme.logo.imageFooter']}
-                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.logo.image.footer']}"></span>
-                                </label>
-                                <div class="col-sm-9">
-                                    <p class="help-block">#{bundle['dataverse.theme.logo.tip']}</p>
-                                    <p:panelGrid rendered="#{not empty themeWidgetFragment.editDv.dataverseTheme.logoFooter}" columns="2" styleClass="noBorders" columnClasses="text-center,uploadNewLogo">
-                                        <p:column>
-                                            <p>
-                                                <img jsf:rendered="#{themeWidgetFragment.uploadExistsFooter()}" class="logoPreview" src="/logos/temp/#{themeWidgetFragment.tempDirName}/#{themeWidgetFragment.editDv.dataverseTheme.logoFooter}" alt="#{themeWidgetFragment.editDv.name}"/>
-                                                <img jsf:rendered="#{not themeWidgetFragment.uploadExistsFooter()}" class="logoPreview" src="/logos/#{themeWidgetFragment.editDv.id}/#{themeWidgetFragment.editDv.dataverseTheme.logoFooter}" alt="#{themeWidgetFragment.editDv.name}"/>
-                                            </p>
-                                            <p:commandButton update=":themeWidgetsForm:themeWidgetsTabView" value="#{bundle.remove}" action="#{themeWidgetFragment.removeLogoFooter()}" oncomplete="bind_bsui_components();"/>
-                                        </p:column>
-                                        <p:fileUpload invalidFileMessage="#{bundle['dataverse.theme.logo.image.invalidMsg']}" id="changelogoFooter" allowTypes="/(\.|\/)(jpg|jpeg|tff|png|gif)$/" update=":themeWidgetsForm:themeWidgetsTabView" oncomplete="bind_bsui_components();" dragDropSupport="true" auto="true" multiple="false"
-                                                      listener="#{themeWidgetFragment.handleImageFooterFileUpload}" label="#{bundle['dataverse.theme.logo.image.upload']}"/>
-                                    </p:panelGrid>
-                                    <p:panelGrid rendered="#{empty themeWidgetFragment.editDv.dataverseTheme.logoFooter}" columns="2" styleClass="noBorders">
-                                        <p:fileUpload id="uploadlogoFooter" invalidFileMessage="#{bundle['dataverse.theme.logo.image.invalidMsg']}" sizeLimit="#{systemConfig.uploadLogoSizeLimit}" allowTypes="/(\.|\/)(jpg|jpeg|tff|png|gif)$/" update=":themeWidgetsForm:themeWidgetsTabView" oncomplete="bind_bsui_components();" dragDropSupport="true" auto="true" multiple="false"
-                                                      listener="#{themeWidgetFragment.handleImageFooterFileUpload}" label="#{bundle['dataverse.theme.logo.image.uploadImgFile']}"/>
-                                    </p:panelGrid>
-                                    <ui:fragment rendered="#{not empty themeWidgetFragment.editDv.dataverseTheme.logoFooter}">
-                                        <div class="form-col-container col-sm-3">
-                                            <label for="logoAlignment" class="control-label">
-                                                #{bundle['dataverse.theme.logo.alignment']}
-                                                <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                                      data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.logo.alignment.title']}"></span>
-                                            </label>
-                                            <div>
-                                                <p:selectOneMenu id="logoFooterAlignment" styleClass="form-control" value="#{themeWidgetFragment.editDv.dataverseTheme.logoFooterAlignment}">
-                                                    <f:selectItem itemLabel="#{bundle['dataverse.theme.logo.alignment.selectTab.left']}" itemValue="LEFT" />
-                                                    <f:selectItem  itemLabel="#{bundle['dataverse.theme.logo.alignment.selectTab.center']}" itemValue="CENTER" />
-                                                    <f:selectItem itemLabel="#{bundle['dataverse.theme.logo.alignment.selectTab.right']}" itemValue="RIGHT" />
-                                                </p:selectOneMenu>
-                                                <p:message for="logoFooterAlignment" display="text"/>
-                                            </div>
-                                        </div>
-                                        <div class="form-col-container col-sm-4">
-                                            <label for="logoBackgroundColor" class="control-label">
-                                                #{bundle['dataverse.theme.logo.backColor']}
-                                                <span class="glyphicon glyphicon-question-sign tooltip-icon"
-                                                      data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.logo.backColor.title']}"></span>
-                                            </label>
-                                            <div>
-                                                <p:colorPicker id="logoFooterBackgroundColor" value="#{themeWidgetFragment.editDv.dataverseTheme.logoFooterBackgroundColor}"/>
-                                                <p:message for="logoFooterBackgroundColor" display="text"/>
-                                            </div>
-                                        </div>
-                                    </ui:fragment>
-                                </div>
-                            </div>
-                        </div>
-                    </ui:fragment>
+<!--                    <ui:fragment rendered="#{themeWidgetFragment.editDv.themeRoot}">-->
+<!--                        <div class="row form-horizontal">-->
+<!--                            <div class="form-group">-->
+<!--                                <label class="col-sm-3 control-label">-->
+<!--                                    #{bundle['dataverse.theme.headerColor']}-->
+<!--                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.headerColor.tip']}"></span>-->
+<!--                                </label>-->
+<!--                                <div class="form-group col-sm-9">-->
+<!--                                    <div class="form-col-container col-sm-4">-->
+<!--                                        <label for="backgroundColor" class="control-label">-->
+<!--                                            #{bundle['dataverse.theme.backColor']}-->
+<!--                                            <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                                  data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.backColor.title']}"></span>-->
+<!--                                        </label>-->
+<!--                                        <div>-->
+<!--                                            <p:colorPicker id="backgroundColor" value="#{themeWidgetFragment.editDv.dataverseTheme.backgroundColor}"/>-->
+<!--                                            <p:message for="backgroundColor" display="text"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="form-col-container col-sm-4">-->
+<!--                                        <label for="linkColor" class="control-label">-->
+<!--                                            #{bundle['dataverse.theme.linkColor']}-->
+<!--                                            <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                                  data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.linkColor.title']}"></span>-->
+<!--                                        </label>-->
+<!--                                        <div>-->
+<!--                                            <p:colorPicker id="linkColor" value="#{themeWidgetFragment.editDv.dataverseTheme.linkColor}"/>-->
+<!--                                            <p:message for="linkColor" display="text"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="form-col-container col-sm-4">-->
+<!--                                        <label for="textColor" class="control-label">-->
+<!--                                            #{bundle['dataverse.theme.txtColor']}-->
+<!--                                            <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                                  data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.txtColor.title']}"></span>-->
+<!--                                        </label>-->
+<!--                                        <div>-->
+<!--                                            <p:colorPicker id="textColor" value="#{themeWidgetFragment.editDv.dataverseTheme.textColor}"/>-->
+<!--                                            <p:message for="textColor" display="text"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label class="col-sm-3 control-label" for="tagline">-->
+<!--                                    #{bundle['dataverse.theme.tagline']}-->
+<!--                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.tagline.title']}"></span>-->
+<!--                                </label>-->
+<!--                                <h:inputHidden id="linkAndUrl" value="true">-->
+<!--                                    <f:validator validatorId="linkValidator"/>-->
+<!--                                    <f:attribute name="linkUrlInput" value="#{themeWidgetFragment.linkUrlInput}"/>-->
+<!--                                    <f:attribute name="taglineInput" value="#{themeWidgetFragment.taglineInput}"/>-->
+<!--                                </h:inputHidden>-->
+<!--                                <div class="col-sm-8">-->
+<!--                                    <p class="help-block">#{bundle['dataverse.theme.tagline.tip']}</p>-->
+<!--                                    <p:inputText id="tagline" styleClass="form-control" binding="#{themeWidgetFragment.taglineInput}" validator="#{themeWidgetFragment.validateTagline}" value="#{themeWidgetFragment.editDv.dataverseTheme.tagline}"/>-->
+<!--                                    <p:message for="tagline" display="text"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label class="col-sm-3 control-label" for="website">-->
+<!--                                    #{bundle['dataverse.theme.website']}-->
+<!--                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.website.title']}"></span>-->
+<!--                                </label>-->
+<!--                                <div class="col-sm-6">-->
+<!--                                    <p class="help-block">#{bundle['dataverse.theme.website.tip']}</p>-->
+<!--                                    <p:inputText id="website" styleClass="form-control" binding="#{themeWidgetFragment.linkUrlInput}" validatorMessage="#{bundle['dataverse.theme.website.invalidMsg']}" validator="#{themeWidgetFragment.validateUrl}" value="#{themeWidgetFragment.editDv.dataverseTheme.linkUrl}"/>-->
+<!--                                    <p:watermark for="website" value="#{bundle['dataverse.theme.website.watermark']}" id="watermark" />-->
+<!--                                    <p:message for="website" display="text"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; Dataverse footer logo &ndash;&gt;-->
+<!--                            <div class="form-group" jsf:rendered="#{themeWidgetFragment.editDv.themeRoot}">-->
+<!--                                <label class="col-sm-3 control-label" for="logoFormat">-->
+<!--                                    #{bundle['dataverse.theme.logo.imageFooter']}-->
+<!--                                    <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                          data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.logo.image.footer']}"></span>-->
+<!--                                </label>-->
+<!--                                <div class="col-sm-9">-->
+<!--                                    <p class="help-block">#{bundle['dataverse.theme.logo.tip']}</p>-->
+<!--                                    <p:panelGrid rendered="#{not empty themeWidgetFragment.editDv.dataverseTheme.logoFooter}" columns="2" styleClass="noBorders" columnClasses="text-center,uploadNewLogo">-->
+<!--                                        <p:column>-->
+<!--                                            <p>-->
+<!--                                                <img jsf:rendered="#{themeWidgetFragment.uploadExistsFooter()}" class="logoPreview" src="/logos/temp/#{themeWidgetFragment.tempDirName}/#{themeWidgetFragment.editDv.dataverseTheme.logoFooter}" alt="#{themeWidgetFragment.editDv.name}"/>-->
+<!--                                                <img jsf:rendered="#{not themeWidgetFragment.uploadExistsFooter()}" class="logoPreview" src="/logos/#{themeWidgetFragment.editDv.id}/#{themeWidgetFragment.editDv.dataverseTheme.logoFooter}" alt="#{themeWidgetFragment.editDv.name}"/>-->
+<!--                                            </p>-->
+<!--                                            <p:commandButton update=":themeWidgetsForm:themeWidgetsTabView" value="#{bundle.remove}" action="#{themeWidgetFragment.removeLogoFooter()}" oncomplete="bind_bsui_components();"/>-->
+<!--                                        </p:column>-->
+<!--                                        <p:fileUpload invalidFileMessage="#{bundle['dataverse.theme.logo.image.invalidMsg']}" id="changelogoFooter" allowTypes="/(\.|\/)(jpg|jpeg|tff|png|gif)$/" update=":themeWidgetsForm:themeWidgetsTabView" oncomplete="bind_bsui_components();" dragDropSupport="true" auto="true" multiple="false"-->
+<!--                                                      listener="#{themeWidgetFragment.handleImageFooterFileUpload}" label="#{bundle['dataverse.theme.logo.image.upload']}"/>-->
+<!--                                    </p:panelGrid>-->
+<!--                                    <p:panelGrid rendered="#{empty themeWidgetFragment.editDv.dataverseTheme.logoFooter}" columns="2" styleClass="noBorders">-->
+<!--                                        <p:fileUpload id="uploadlogoFooter" invalidFileMessage="#{bundle['dataverse.theme.logo.image.invalidMsg']}" sizeLimit="#{systemConfig.uploadLogoSizeLimit}" allowTypes="/(\.|\/)(jpg|jpeg|tff|png|gif)$/" update=":themeWidgetsForm:themeWidgetsTabView" oncomplete="bind_bsui_components();" dragDropSupport="true" auto="true" multiple="false"-->
+<!--                                                      listener="#{themeWidgetFragment.handleImageFooterFileUpload}" label="#{bundle['dataverse.theme.logo.image.uploadImgFile']}"/>-->
+<!--                                    </p:panelGrid>-->
+<!--                                    <ui:fragment rendered="#{not empty themeWidgetFragment.editDv.dataverseTheme.logoFooter}">-->
+<!--                                        <div class="form-col-container col-sm-3">-->
+<!--                                            <label for="logoAlignment" class="control-label">-->
+<!--                                                #{bundle['dataverse.theme.logo.alignment']}-->
+<!--                                                <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                                      data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.logo.alignment.title']}"></span>-->
+<!--                                            </label>-->
+<!--                                            <div>-->
+<!--                                                <p:selectOneMenu id="logoFooterAlignment" styleClass="form-control" value="#{themeWidgetFragment.editDv.dataverseTheme.logoFooterAlignment}">-->
+<!--                                                    <f:selectItem itemLabel="#{bundle['dataverse.theme.logo.alignment.selectTab.left']}" itemValue="LEFT" />-->
+<!--                                                    <f:selectItem  itemLabel="#{bundle['dataverse.theme.logo.alignment.selectTab.center']}" itemValue="CENTER" />-->
+<!--                                                    <f:selectItem itemLabel="#{bundle['dataverse.theme.logo.alignment.selectTab.right']}" itemValue="RIGHT" />-->
+<!--                                                </p:selectOneMenu>-->
+<!--                                                <p:message for="logoFooterAlignment" display="text"/>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-col-container col-sm-4">-->
+<!--                                            <label for="logoBackgroundColor" class="control-label">-->
+<!--                                                #{bundle['dataverse.theme.logo.backColor']}-->
+<!--                                                <span class="glyphicon glyphicon-question-sign tooltip-icon"-->
+<!--                                                      data-toggle="tooltip" data-placement="auto right" data-original-title="#{bundle['dataverse.theme.logo.backColor.title']}"></span>-->
+<!--                                            </label>-->
+<!--                                            <div>-->
+<!--                                                <p:colorPicker id="logoFooterBackgroundColor" value="#{themeWidgetFragment.editDv.dataverseTheme.logoFooterBackgroundColor}"/>-->
+<!--                                                <p:message for="logoFooterBackgroundColor" display="text"/>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </ui:fragment>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </ui:fragment>-->
                 </p:fragment>
                 <div class="button-block">
                     <p:commandButton class="btn btn-default" value="#{bundle.saveChanges}" update=":#{p:resolveClientId('messagePanel', view)}, :themeWidgetsForm" action="#{themeWidgetFragment.save()}" oncomplete="bind_bsui_components();"/>

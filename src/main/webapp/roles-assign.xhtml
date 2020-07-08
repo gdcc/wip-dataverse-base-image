@@ -75,6 +75,7 @@
                                                 <span class="label label-default">#{bundle['permission.'.concat(prm).concat('.label')]}</span>
                                             </ui:repeat>
                                         </div>
+                                        <c:if test="#{managePermissionsPage.assignedRoleObjectTypes} == #{bundle['dashboard.card.datamove.dataverse.label']}">
                                         <p class="help-block">
                                             <span class="glyphicon glyphicon-warning-sign text-warning"/>
                                             <h:outputFormat styleClass="text-warning" value=" #{bundle['dataverse.permissions.usersOrGroups.assignDialog.role.warning']}">
@@ -83,6 +84,7 @@
                                                 <f:param value="#{managePermissionsPage.definitionLevelString}"/>
                                             </h:outputFormat>
                                         </p>
+                                        </c:if>
                                     </div>
                                 </div>
                             </p:fragment>

@@ -601,12 +601,12 @@
                                             <div class="item">
                                                 <div style="vertical-align:middle;">
                                                     <c:set var="dvFeatUrl" value="/dataverse/#{dv.alias}"/>
-                                                    <a href="#{widgetWrapper.wrapURL(dvFeatUrl)}" title="#{dv.name}">
-                                                        <img src="/logos/#{dv.logoOwnerId}/#{dv.dataverseTheme.logo}" alt="#{of:format1(bundle['alt.logo'], dv.name)}" jsf:rendered="#{!empty dv.dataverseTheme.logo}"/>
+                                                    <a href="#{widgetWrapper.wrapURL(dvFeatUrl)}" title="#{dv.localizedName}">
+                                                        <img src="/logos/#{dv.logoOwnerId}/#{dv.dataverseTheme.logo}" alt="#{of:format1(bundle['alt.logo'], dv.localizedName)}" jsf:rendered="#{!empty dv.dataverseTheme.logo}"/>
                                                         <span class="icon-dataverse" jsf:rendered="#{empty dv.dataverseTheme.logo}"></span>
                                                     </a>
-                                                    <a href="#{widgetWrapper.wrapURL(dvFeatUrl)}" title="#{dv.name}">
-                                                        <h:outputText value="#{dv.name}"/>
+                                                    <a href="#{widgetWrapper.wrapURL(dvFeatUrl)}" title="#{dv.localizedName}">
+                                                        <h:outputText value="#{dv.localizedName}"/>
                                                     </a>
                                                 </div>
                                             </div>
@@ -628,7 +628,7 @@
                             <div class="form-group">
                                 <p class="help-block">#{bundle['dataverse.selectToFeature']}</p>
                                 <p:pickList id="featuredDataverseList" value="#{DataversePage.featuredDataverses}" var="featureddataverse"
-                                            itemLabel="#{featureddataverse.name}"
+                                            itemLabel="#{featureddataverse.localizedName}"
                                             itemValue="#{featureddataverse}" converter="dataverseConverter"
                                             showSourceFilter="true" showTargetFilter="true" />
                             </div>

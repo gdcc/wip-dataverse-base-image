@@ -10,6 +10,7 @@ import edu.harvard.iq.dataverse.authorization.providers.builtin.BuiltinUserServi
 import edu.harvard.iq.dataverse.util.SystemConfig;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -234,16 +235,19 @@ public class PasswordResetServiceBean {
             AuthenticatedUser authUser = authService.getAuthenticatedUser(user.getUserName());
             
             String toAddress = authUser.getEmail();
-            String subject = "Dataverse Password Reset Successfully Changed";
+//            String subject = "Dataverse Password Reset Successfully Changed";
+            String subject = BundleUtil.getStringFromBundle("notification.email.passwordReset.verification.subject");
 
-            String messageBody = "Hi " + authUser.getName() + ",\n\n"
-                    + "Your Dataverse account password was successfully changed.\n\n"
-                    + "Please contact us if you did not request this password reset or need further help.\n\n";
+//            String messageBody = "Hi " + authUser.getName() + ",\n\n"
+//                    + "Your Dataverse account password was successfully changed.\n\n"
+//                    + "Please contact us if you did not request this password reset or need further help.\n\n";
+            String messageBody = BundleUtil.getStringFromBundle("notification.email.passwordReset.verification.text", Arrays.asList(authUser.getName()));
             mailService.sendSystemEmail(toAddress, subject, messageBody);
             return new PasswordChangeAttemptResponse(true, messageSummary, messageDetail);
         } else {
             messageSummary = messageSummaryFail;
-            messageDetail = "Your password was not reset. Please contact support.";
+//            messageDetail = "Your password was not reset. Please contact support.";
+            messageDetail = BundleUtil.getStringFromBundle("notification.email.passwordReset.failed");
             logger.info("Enable to save user " + user.getId());
             return new PasswordChangeAttemptResponse(false, messageSummary, messageDetail);
         }

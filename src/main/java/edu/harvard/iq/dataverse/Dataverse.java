@@ -808,8 +808,8 @@ public class Dataverse extends DvObjectContainer {
 	}
 
 	public String getLocalizedName(){
-        String lang = BundleUtil.getCurrentLocale().getLanguage();
-        if(("hu".equals(BundleUtil.getStringFromBundle("lang"))) && this.name_hu != null){
+//        String lang = BundleUtil.getCurrentLocale().getLanguage();
+        if(("hu".equals(BundleUtil.getStringFromBundle("lang").trim())) && this.name_hu != null){
             return this.name_hu;
         }
 //        String localizedField = "name_" + lang;
@@ -826,8 +826,8 @@ public class Dataverse extends DvObjectContainer {
     }
 
     public String getLocalizedDescription(){
-        String lang = BundleUtil.getCurrentLocale().getLanguage();
-        if("hu".equals(lang) && this.description_hu != null){
+//        String lang = BundleUtil.getCurrentLocale().getLanguage();
+        if("hu".equals(BundleUtil.getStringFromBundle("lang").trim()) && this.description_hu != null){
             return this.description_hu;
         }
         return this.description;

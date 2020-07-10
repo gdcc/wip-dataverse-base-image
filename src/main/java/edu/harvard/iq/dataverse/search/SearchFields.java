@@ -249,6 +249,9 @@ public class SearchFields {
      */
     public static final String DATASET_CITATION = "citation";
     public static final String DATASET_CITATION_HTML = "citationHtml";
+
+    public static final String DATASET_CITATION_HU = "citation_hu";
+    public static final String DATASET_CITATION_HTML_HU = "citationHtml_hu";
     public static final String DATASET_DEACCESSION_REASON = "deaccessionReason";
     /**
      * In contrast to PUBLICATION_YEAR, this field applies only to datasets for

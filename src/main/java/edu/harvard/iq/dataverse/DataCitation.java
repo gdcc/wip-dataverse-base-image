@@ -46,6 +46,7 @@ public class DataCitation {
     private List<String> authors = new ArrayList<String>();
     private List<String> producers = new ArrayList<String>();
     private String title;
+    private String title_hu;
     private String fileTitle = null;
     private String year;
     private Date date;
@@ -53,6 +54,7 @@ public class DataCitation {
     private String version;
     private String UNF = null;
     private String publisher;
+    private String publisher_hu;
     private boolean direct;
     private List<String> funders;
     private String seriesTitle;
@@ -132,12 +134,14 @@ public class DataCitation {
         year = new SimpleDateFormat("yyyy").format(date);
 
         datesOfCollection = dsv.getDatesOfCollection();
-        title = dsv.getTitle();
+        title = dsv.getTitleEn();
+        title_hu = dsv.getTitle();
         seriesTitle = dsv.getSeriesTitle();
         keywords = dsv.getKeywords();
         languages = dsv.getLanguages();
         spatialCoverages = dsv.getSpatialCoverages();
-        publisher = getPublisherFrom(dsv);
+        publisher = getPublisherFrom(dsv, false);
+        publisher_hu = getPublisherFrom(dsv, true);
         version = getVersionFrom(dsv);
     }
 
@@ -180,27 +184,33 @@ public class DataCitation {
 
     @Override
     public String toString() {
-        return toString(false);
+        return toString(false, false);
     }
 
     public String toString(boolean html) {
-        // first add comma separated parts        
+        return toString(html, false);
+    }
+
+    public String toString(boolean html, boolean isHun) {
+        // first add comma separated parts
+        String localTitle = isHun && !StringUtils.isEmpty(title_hu) ? title_hu : title;
+        String localPublisher = isHun && !StringUtils.isEmpty(title_hu) ? publisher_hu : publisher;
         String separator = ", ";
         List<String> citationList = new ArrayList<>();
         citationList.add(formatString(getAuthorsString(), html));
         citationList.add(year);
         if ((fileTitle != null) && isDirect()) {
             citationList.add(formatString(fileTitle, html, "\""));
-            citationList.add(formatString(title, html, "<i>", "</i>"));
+            citationList.add(formatString(localTitle, html, "<i>", "</i>"));
         } else {
-        citationList.add(formatString(title, html, "\""));
+        citationList.add(formatString(localTitle, html, "\""));
         }
 
         if (persistentId != null) {
         	// always show url format
             citationList.add(formatURL(persistentId.toURL().toString(), persistentId.toURL().toString(), html)); 
         }
-        citationList.add(formatString(publisher, html));
+        citationList.add(formatString(localPublisher, html));
         citationList.add(version);
 
         StringBuilder citation = new StringBuilder(citationList.stream().filter(value -> !StringUtils.isEmpty(value))
@@ -743,9 +753,9 @@ public class DataCitation {
         producers = dsv.getDatasetProducerNames();
     }
 
-    private String getPublisherFrom(DatasetVersion dsv) {
+    private String getPublisherFrom(DatasetVersion dsv, boolean isHun) {
         if (!dsv.getDataset().isHarvested()) {
-            return dsv.getRootDataverseNameforCitation();
+            return dsv.getRootDataverseNameforCitation(isHun);
         } else {
             return dsv.getDistributorName();
             // remove += [distributor] SEK 8-18-2016

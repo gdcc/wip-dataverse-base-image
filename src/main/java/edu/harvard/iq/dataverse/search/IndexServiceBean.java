@@ -786,6 +786,8 @@ public class IndexServiceBean {
             solrInputDocument.addField(SearchFields.DATASET_VERSION_ID, datasetVersion.getId());
             solrInputDocument.addField(SearchFields.DATASET_CITATION, datasetVersion.getCitation(false));
             solrInputDocument.addField(SearchFields.DATASET_CITATION_HTML, datasetVersion.getCitation(true));
+            solrInputDocument.addField(SearchFields.DATASET_CITATION_HU, datasetVersion.getCitationHu(false));
+            solrInputDocument.addField(SearchFields.DATASET_CITATION_HTML_HU, datasetVersion.getCitationHu(true));
 
             if (datasetVersion.isInReview()) {
                 solrInputDocument.addField(SearchFields.PUBLICATION_STATUS, IN_REVIEW_STRING);

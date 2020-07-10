@@ -511,6 +511,8 @@ public class SearchServiceBean {
                 List<String> datasetDescriptions = (List<String>) solrDocument.getFieldValue(SearchFields.DATASET_DESCRIPTION);
 
                 if("hu".equals(BundleUtil.getStringFromBundle("lang").trim())){
+                    citation = (String) solrDocument.getFieldValue(SearchFields.DATASET_CITATION_HU);
+                    citationPlainHtml = (String) solrDocument.getFieldValue(SearchFields.DATASET_CITATION_HTML_HU);
                     List<String> hunDescList = (List<String>) solrDocument.getFieldValue(SearchFields.DATASET_DESCRIPTION_HU);
                     if(hunDescList != null && hunDescList.size() != 0){
                         datasetDescriptions = hunDescList;

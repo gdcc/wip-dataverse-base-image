@@ -676,6 +676,15 @@ public class DatasetVersion implements Serializable {
         return retVal;
     }
 
+    public String getTitleEn(){
+        for (DatasetField dsfv : this.getDatasetFields()) {
+            if (dsfv.getDatasetFieldType().getName().equals(DatasetFieldConstant.title)) {
+                return dsfv.getDisplayValue();
+            }
+        }
+        return "";
+    }
+
     public String getProductionDate() {
         String retVal = null;
         for (DatasetField dsfv : this.getDatasetFields()) {
@@ -1317,6 +1326,10 @@ public class DatasetVersion implements Serializable {
     public String getCitation(boolean html) {
         return new DataCitation(this).toString(html);
     }
+
+    public String getCitationHu(boolean html) {
+        return new DataCitation(this).toString(html, true);
+    }
     
     public Date getCitationDate() {
         DatasetField citationDate = getDatasetField(this.getDataset().getCitationDateDatasetFieldType());        
@@ -1366,15 +1379,19 @@ public class DatasetVersion implements Serializable {
         }
         return null;
     }
+
+    public String getRootDataverseNameforCitation(){
+        return getRootDataverseNameforCitation(false);
+    }
     
     // TODO: Consider renaming this method since it's also used for getting the "provider" for Schema.org JSON-LD.
-    public String getRootDataverseNameforCitation(){
+    public String getRootDataverseNameforCitation(boolean isHun){
                     //Get root dataverse name for Citation
         Dataverse root = this.getDataset().getOwner();
         while (root.getOwner() != null) {
             root = root.getOwner();
         }
-        String rootDataverseName = root.getName();
+        String rootDataverseName = isHun && !StringUtils.isEmpty(root.getName_hu()) ? root.getName_hu() : root.getName();
         if (!StringUtil.isEmpty(rootDataverseName)) {
             return rootDataverseName;
         } else {

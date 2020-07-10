@@ -455,6 +455,7 @@
                                                 <span class="glyphicon glyphicon-envelope"/> #{bundle['contact.contact']}
                                         </p:commandLink>
                                         <p:commandLink type="button" styleClass="text-button btn-share bootstrap-button-tooltip"
+                                                       rendered="#{DataversePage.released}"
                                            title="#{bundle['dataverse.share.dataverseShare']}"
                                            oncomplete="PF('shareDialog').show();sharrre();">
                                             <span class="glyphicon glyphicon-share"/> #{bundle['share']}

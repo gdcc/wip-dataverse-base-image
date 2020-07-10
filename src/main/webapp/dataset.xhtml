@@ -94,7 +94,7 @@
                                                 <f:setPropertyActionListener target="#{sendFeedbackDialog.recipient}" value="#{DatasetPage.dataset}"/>
                                                 <span class="glyphicon glyphicon-envelope"/> #{bundle['contact.contact']}
                                             </p:commandLink>
-                                            <p:commandLink styleClass="text-button btn-share bootstrap-button-tooltip" rendered="#{!DatasetPage.workingVersion.deaccessioned}"
+                                            <p:commandLink styleClass="text-button btn-share bootstrap-button-tooltip" rendered="#{!DatasetPage.workingVersion.deaccessioned and DatasetPage.workingVersion.published}"
                                                            title="#{bundle['dataset.share.datasetShare']}"
                                                            oncomplete="PF('shareDialog').show();sharrre();">
                                                 <span class="glyphicon glyphicon-share"/> #{bundle['share']}

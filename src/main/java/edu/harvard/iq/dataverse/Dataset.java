@@ -640,6 +640,9 @@ public class Dataset extends DvObjectContainer {
     }
 
     public String getCitation(boolean isOnlineVersion, DatasetVersion version) {
+        if("hu".equals(BundleUtil.getStringFromBundle("lang").trim())){
+            return version.getCitationHu(isOnlineVersion);
+        }
         return version.getCitation(isOnlineVersion);
     }
 

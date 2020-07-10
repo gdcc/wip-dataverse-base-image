@@ -1241,4 +1241,8 @@ public class DataversePage implements java.io.Serializable {
    		}
    		return label;
     }
+
+    public boolean isReleased(){
+        return dataverse.isReleased();
+    }
 }

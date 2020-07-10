@@ -12,7 +12,7 @@
     </h:head>
     <h:body>
         <ui:composition template="/dataverse_template.xhtml">
-            <ui:param name="pageTitle" value="#{empty DataversePage.dataverse.name ? bundle.new : DataversePage.dataverse.name}"/>
+            <ui:param name="pageTitle" value="#{empty DataversePage.dataverse.localizedName ? bundle.new : DataversePage.dataverse.localizedName}"/>
             <ui:param name="dataverse" value="#{DataversePage.dataverse}"/>
             <ui:param name="editModeDataverse" value="#{DataversePage.editMode}"/>
             <ui:define name="meta_header">

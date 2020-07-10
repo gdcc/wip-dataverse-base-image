@@ -93,7 +93,7 @@
                                 <div jsf:rendered="#{manageGuestbooksPage.dataverse.id != guestbook.dataverse.id}">
                                     <em class="text-muted">
                                         <h:outputFormat value="#{bundle['dataset.manageGuestbooks.tab.action.noedit.createdin']}" escape="false">
-                                            <f:param value="#{guestbook.dataverse.name}"/>
+                                            <f:param value="#{guestbook.dataverse.localizedName}"/>
                                         </h:outputFormat>
                                     </em>
                                 </div>

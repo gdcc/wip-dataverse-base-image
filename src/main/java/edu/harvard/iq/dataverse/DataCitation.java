@@ -135,7 +135,7 @@ public class DataCitation {
 
         datesOfCollection = dsv.getDatesOfCollection();
         title = dsv.getTitleEn();
-        title_hu = dsv.getTitle();
+        title_hu = dsv.getTitleHu();
         seriesTitle = dsv.getSeriesTitle();
         keywords = dsv.getKeywords();
         languages = dsv.getLanguages();

@@ -676,6 +676,20 @@ public class DatasetVersion implements Serializable {
         return retVal;
     }
 
+    public String getTitleHu() {
+        String retVal = "";
+        for (DatasetField dsfv : this.getDatasetFields()) {
+            if(dsfv.getDatasetFieldType().getName().equals(DatasetFieldConstant.title_hu) && !StringUtils.isEmpty(dsfv.getDisplayValue())){
+                retVal = dsfv.getDisplayValue();
+
+            }
+            if (dsfv.getDatasetFieldType().getName().equals(DatasetFieldConstant.title) && retVal.isEmpty()) {
+                retVal = dsfv.getDisplayValue();
+            }
+        }
+        return retVal;
+    }
+
     public String getTitleEn(){
         for (DatasetField dsfv : this.getDatasetFields()) {
             if (dsfv.getDatasetFieldType().getName().equals(DatasetFieldConstant.title)) {

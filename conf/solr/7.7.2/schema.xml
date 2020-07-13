@@ -234,9 +234,6 @@
 
     <field name="name_hu" type="text_hu" multiValued="false" stored="true" indexed="true"/>
     <field name="description_hu" type="text_hu" multiValued="false" stored="true" indexed="true"/>
-    <field name="title_hu" type="text_hu" multiValued="false" stored="true" indexed="true"/>
-    <field name="dsDescriptionValue_hu" type="text_hu" multiValued="true" stored="true" indexed="true"/>
-    <field name="dsDescriptionDate_hu" type="date" stored="true" indexed="true"/>
 
     
     <!-- Dynamic Dataverse fields from http://localhost:8080/api/admin/index/solr/schema -->

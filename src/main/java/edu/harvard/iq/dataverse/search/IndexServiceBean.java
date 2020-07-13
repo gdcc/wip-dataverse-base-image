@@ -860,6 +860,8 @@ public class IndexServiceBean {
                                 parentDatasetTitle = firstTitle;
                             }
                             solrInputDocument.addField(SearchFields.NAME_SORT, dsf.getValues());
+                        } else if (dsf.getDatasetFieldType().getName().equals("title_hu")) {
+                            solrInputDocument.addField(SearchFields.NAME_SORT_HU, dsf.getValues());
                         }
                         if (dsfType.isControlledVocabulary()) {
                             for (ControlledVocabularyValue controlledVocabularyValue : dsf.getControlledVocabularyValues()) {

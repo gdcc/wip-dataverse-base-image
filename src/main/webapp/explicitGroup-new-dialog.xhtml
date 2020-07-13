@@ -3,6 +3,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:iqbs="http://xmlns.jcp.org/jsf/composite/iqbs">
+
+    <style>
+        li.ui-autocomplete-input-token{
+            width: 100%;
+        }
+    </style>
     
     <p:dialog id="explicitGroupNewDialog" width="65%" header="#{bundle['dataverse.permissions.explicitGroupEditDialog.title.new']}" widgetVar="explicitGroupForm" modal="true">
         <p:focus for="explicitGroupName"/>
@@ -61,7 +67,7 @@
                     </label>
                     <div class="col-sm-6">
                         <p:autoComplete id="roleAssigneeName" placeholder="#{bundle['dataverse.permissions.usersOrGroups.assignDialog.userOrGroup.enterName']}"
-                                        multiple="true" scrollHeight="180" forceSelection="true" 
+                                        multiple="true" scrollHeight="180" forceSelection="true"
                                         minQueryLength="2" queryDelay="1000"                                      
                                         groupBy="#{roleAssignee.identifier.startsWith('@')?'Users':'Groups'}"                                        
                                         emptyMessage="#{bundle['dataverse.permissions.usersOrGroups.assignDialog.userOrGroup.invalidMsg']}"

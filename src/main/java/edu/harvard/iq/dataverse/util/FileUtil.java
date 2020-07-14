@@ -885,7 +885,7 @@ public class FileUtil implements java.io.Serializable  {
 					if (charset != null) {
 						unZippedIn = new ZipInputStream(new FileInputStream(tempFile.toFile()), charset);
 					} else {
-						unZippedIn = new ZipInputStream(new FileInputStream(tempFile.toFile()));
+						unZippedIn = new ZipInputStream(new FileInputStream(tempFile.toFile()), Charset.forName("ISO-8859-2"));
 					}
 
 					while (true) {
@@ -918,7 +918,32 @@ public class FileUtil implements java.io.Serializable  {
 								throw new IOException();
 							}
 
-							String fileEntryName = zipEntry.getName();
+							String fileEntryName = new String(zipEntry.getName().getBytes("ISO-8859-2"));
+//							byte[] nameBytes = zipEntry.getName().getBytes("ISO-8859-2");
+//							byte[] newNameBytes = new byte[nameBytes.length];
+//							for(int i = 0; i < nameBytes.length; i++){
+//							    if(nameBytes[i] == -75){
+//							        newNameBytes[i] = -31;
+//                                }else if(nameBytes[i] == -95){
+//                                    newNameBytes[i] = -19;
+//                                }else if(nameBytes[i] == -117){
+//                                    newNameBytes[i] = -11;
+//                                }else if(nameBytes[i] == -127){
+//                                    newNameBytes[i] = -4;
+//                                }else if(nameBytes[i] == -108){
+//                                    newNameBytes[i] = -10;
+//                                }else if(nameBytes[i] == -93){
+//                                    newNameBytes[i] = -6;
+//                                }else if(nameBytes[i] == -95){
+//                                    newNameBytes[i] = -13;
+//                                }else if(nameBytes[i] == -126){
+//                                    newNameBytes[i] = -23;
+//                                }else{
+//							        newNameBytes[i] = nameBytes[i];
+//                                }
+//                            }
+
+//							fileEntryName = new String(newNameBytes, "ISO-8859-2"); //zipEntry.getName();
 							logger.fine("ZipEntry, file: " + fileEntryName);
 
 							if (fileEntryName != null && !fileEntryName.equals("")) {

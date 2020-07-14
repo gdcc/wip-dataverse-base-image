@@ -14,12 +14,30 @@ from storage import (open_dataverse_file)
 #from email_notification import (send_notification)
 import argparse
 
+### list dataverses/datasets/datafiles in a storage
+### also display some statistics
 def ls(args):
+	if args['type']=='dataverse':
+		q="""SELECT id, alias, description FROM dataverse"""
+		if args['storage'] is not None:
+			q+=""" WHERE id IN
+			         (SELECT DISTINCT owner_id FROM dataset NATURAL JOIN dvobject WHERE storageidentifier LIKE '"""+args['storage']+"""://%')
+			"""
+		records=get_records_for_query(q)
+	elif args['type']=='dataset':
+		records=[]
+	elif args['type']=='datafile':
+		records=[]
+	else:
+		records=[]
+	for r in records:
+		print r
 	exit(1)
 
 def mv(args):
 	exit(1)
 
+### this is for checking that the files in the database are all there on disk where they should be
 def fsck(args):
 	filepaths=get_all_filepaths()
 	for f in filepaths:
@@ -63,6 +81,7 @@ def main():
 		"move" : mv,
 		"fsck" : fsck,
 	}
+	types=["dataverse","dataset","datafile"]
 #	print commands.keys()
 
 	argv = sys.argv[2:]
@@ -70,6 +89,8 @@ def main():
 	ap.add_argument("command", choices=commands.keys(), help="what to do")
 	ap.add_argument("-n", "--name", required=False, help="name of the object")
 	ap.add_argument("-i", "--id", required=False, help="id of the object")
+	ap.add_argument("-t", "--type", choices=types, required=False, help="type of objects to list/move")
+	ap.add_argument("-s", "--storage", required=False, help="storage to list items from")
 #	ap.add_argument("-f", "--from", required=False, help="only consider entries after this date")
 	args = vars(ap.parse_args())
 #	opts, args = getopt.getopt(argv, 'type:id:name:')

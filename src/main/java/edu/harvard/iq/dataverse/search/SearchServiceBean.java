@@ -460,9 +460,15 @@ public class SearchServiceBean {
             Map<String, String> parent = new HashMap<>();
             String description = (String) solrDocument.getFieldValue(SearchFields.DESCRIPTION);
             if("hu".equals(BundleUtil.getStringFromBundle("lang").trim())){
-                name = (String) solrDocument.getFieldValue(SearchFields.NAME_HU);
-                nameSort = (String) solrDocument.getFieldValue(SearchFields.NAME_SORT_HU);
-                description = (String) solrDocument.getFieldValue(SearchFields.DESCRIPTION_HU);
+                if(solrDocument.getFieldValue(SearchFields.NAME_HU) != null) {
+                    name = (String) solrDocument.getFieldValue(SearchFields.NAME_HU);
+                }
+                if(solrDocument.getFieldValue(SearchFields.NAME_SORT_HU) != null) {
+                    nameSort = (String) solrDocument.getFieldValue(SearchFields.NAME_SORT_HU);
+                }
+                if(solrDocument.getFieldValue(SearchFields.DESCRIPTION_HU) != null) {
+                    description = (String) solrDocument.getFieldValue(SearchFields.DESCRIPTION_HU);
+                }
             }
             solrSearchResult.setNameSort(nameSort);
             solrSearchResult.setDescriptionNoSnippet(description);

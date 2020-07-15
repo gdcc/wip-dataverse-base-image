@@ -21,15 +21,29 @@ def ls(args):
 		q="""SELECT id, alias, description FROM dataverse"""
 		if args['storage'] is not None:
 			q+=""" WHERE id IN
-			         (SELECT DISTINCT owner_id FROM dataset NATURAL JOIN dvobject WHERE storageidentifier LIKE '"""+args['storage']+"""://%')
-			"""
-		records=get_records_for_query(q)
+			       (SELECT DISTINCT owner_id FROM dataset NATURAL JOIN dvobject WHERE storageidentifier LIKE '"""+args['storage']+"""://%')"""
 	elif args['type']=='dataset':
-		records=[]
+		q="""SELECT ds1.id, dvo1.identifier, sum(filesize) FROM dataset ds1 NATURAL JOIN dvobject dvo1 JOIN (datafile df2 NATURAL JOIN dvobject dvo2) ON ds1.id=dvo2.owner_id
+		     WHERE true"""
+#		end=""
+		end=" GROUP BY ds1.id,dvo1.identifier"
+		if args['dataverseid'] is not None:
+			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id="+args['dataverseid']+")"
+		elif args['dataversename'] is not None:
+			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id IN (SELECT id FROM dataverse WHERE alias='"+args['dataversename']+"'"+"))"
+#		else:
+#			end=" GROUP BY ds1.id,dvo1.identifier"
+		if args['storage'] is not None:
+			q+=" AND ds1.id IN (SELECT DISTINCT owner_id FROM dvobject WHERE storageidentifier LIKE '"+args['storage']+"://%')"
+		q+=end
 	elif args['type']=='datafile':
-		records=[]
+		q="SELECT id, directorylabel, label, filesize, owner_id FROM datafile NATURAL JOIN dvobject NATURAL JOIN filemetadata WHERE true"
+		if args['storage'] is not None:
+			q+=" AND storageidentifier LIKE '"+args['storage']+"://%' ORDER BY owner_id"
 	else:
-		records=[]
+		q=""
+	print q
+	records=get_records_for_query(q)
 	for r in records:
 		print r
 	exit(1)
@@ -88,7 +102,9 @@ def main():
 	ap = argparse.ArgumentParser()
 	ap.add_argument("command", choices=commands.keys(), help="what to do")
 	ap.add_argument("-n", "--name", required=False, help="name of the object")
+	ap.add_argument("-d", "--dataversename", required=False, help="name of the containing dataverse")
 	ap.add_argument("-i", "--id", required=False, help="id of the object")
+	ap.add_argument("--dataverseid", required=False, help="id of the containing dataverse")
 	ap.add_argument("-t", "--type", choices=types, required=False, help="type of objects to list/move")
 	ap.add_argument("-s", "--storage", required=False, help="storage to list items from")
 #	ap.add_argument("-f", "--from", required=False, help="only consider entries after this date")

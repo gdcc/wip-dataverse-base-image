@@ -6,17 +6,17 @@ import sys
 import os
 import io
 import re
+import pprint
+import argparse
 from stat import *
 from config import (ConfigSectionMap)
 from database import (query_database, get_last_timestamp, record_datafile_status, get_datafile_status, create_database_connection)
 from storage import (open_dataverse_file)
-#from backup import (backup_file)
-#from email_notification import (send_notification)
-import argparse
+from shutil import copyfile
 
 ### list dataverses/datasets/datafiles in a storage
-### also display some statistics
-def ls(args):
+### TODO: display some statistics
+def getList(args):
 	if args['type']=='dataverse':
 		q="""SELECT id, alias, description FROM dataverse"""
 		if args['storage'] is not None:
@@ -27,43 +27,81 @@ def ls(args):
 		     WHERE true"""
 #		end=""
 		end=" GROUP BY ds1.id,dvo1.identifier"
-		if args['dataverseid'] is not None:
-			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id="+args['dataverseid']+")"
-		elif args['dataversename'] is not None:
-			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id IN (SELECT id FROM dataverse WHERE alias='"+args['dataversename']+"'"+"))"
+		if args['ownerid'] is not None:
+			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id="+args['ownerid']+")"
+		elif args['ownername'] is not None:
+			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id IN (SELECT id FROM dataverse WHERE alias='"+args['ownername']+"'"+"))"
 #		else:
 #			end=" GROUP BY ds1.id,dvo1.identifier"
 		if args['storage'] is not None:
 			q+=" AND ds1.id IN (SELECT DISTINCT owner_id FROM dvobject WHERE storageidentifier LIKE '"+args['storage']+"://%')"
 		q+=end
-	elif args['type']=='datafile':
+	elif args['type']=='datafile' or args['type'] is None:
 		q="SELECT id, directorylabel, label, filesize, owner_id FROM datafile NATURAL JOIN dvobject NATURAL JOIN filemetadata WHERE true"
+		if args['ownerid'] is not None:
+			q+=" AND owner_id="+args['ownerid']
+#		elif args['ownername'] is not None:
+#			q+=
 		if args['storage'] is not None:
 			q+=" AND storageidentifier LIKE '"+args['storage']+"://%' ORDER BY owner_id"
-	else:
-		q=""
 	print q
 	records=get_records_for_query(q)
+	return records
+
+def ls(args):
+	records=getList(args)
 	for r in records:
 		print r
-	exit(1)
+
+def moveFile(row,path,destStoragePath,destStorageName):
+#	print row
+#	print path
+	src=path[0]+path[1]
+	dst=destStoragePath+path[1]
+	if src==dst:
+		print "skipping "+src+", as already in storage "+destStorageName
+		return
+	print "copying from "+src+" to "+dst
+	copyfile(src, dst)
+	query="UPDATE dvobject SET storageidentifier=REGEXP_REPLACE(storageidentifier,'^[^:]*://',%s||'://') WHERE id=%s"
+	print "updating database: "+query+" "+str((destStorageName,row[0]))
+	sql_update(query,(destStorageName,row[0]))
+	print "removing original file "+src
+	os.remove(src)
 
 def mv(args):
-	exit(1)
+	if args['to_storage'] is None:
+		print "--to-storage is missing"
+		exit(1)
+	storagePaths=get_storage_paths()
+	if args['to_storage'] not in storagePaths:
+		print args['to_storage']+" is not a valid storage. Valid storages:"
+		pprint.PrettyPrinter(indent=4,width=10).pprint(storagePaths)
+		exit(1)
+	filesToMove=getList(args)
+	filePaths=get_filepaths(idlist=[str(x[0]) for x in filesToMove],separatePaths=True)
+	for row in filesToMove:
+		moveFile(row,filePaths[row[0]],storagePaths[args['to_storage']],args['to_storage'])
 
 ### this is for checking that the files in the database are all there on disk where they should be
 def fsck(args):
-	filepaths=get_all_filepaths()
+	if args['ids'] is not None:
+		filepaths=get_filepaths(args['ids'].split(','))
+	elif args['storage'] is not None or args['ownerid'] is not None:
+		filesToCheck=getList(args)
+		filepaths=get_filepaths([str(x[0]) for x in filesToCheck])
+	else:
+		filepaths=get_filepaths()
 	for f in filepaths:
 		try:
 			if not S_ISREG(os.stat(f['path']).st_mode):
 				print f['path'] + " is not a normal file"
 		except:
-			print "cannot stat " + f['path'] + " id: " + f['id']
+			print "cannot stat " + f['path'] + " id: " + str(f['id'])
 
 def get_storage_paths():
 	out=os.popen("./list_storages.sh").read()
-	print out
+#	print out
 	result={}
 	for line in out.splitlines():
 		l=line.split(' ')
@@ -75,18 +113,33 @@ def get_records_for_query(query):
 	cursor = dataverse_db_connection.cursor()
 	cursor.execute(query)
 	records = cursor.fetchall()
+	dataverse_db_connection.close()
 	return records
 
-def get_all_filepaths():
+def sql_update(query, params):
+	dataverse_db_connection = create_database_connection()
+	cursor = dataverse_db_connection.cursor()
+	cursor.execute(query, params)
+	dataverse_db_connection.commit() 
+	dataverse_db_connection.close()
+
+def get_filepaths(idlist=None,separatePaths=False):
 	storagepaths=get_storage_paths()
 
-	dataverse_query="""SELECT f.id, REGEXP_REPLACE(f.storageidentifier,'^([^:]*)://.*','\\1'), REGEXP_REPLACE(s.storageidentifier,'^[^:]*://','') || '/' || REGEXP_REPLACE(f.storageidentifier,'^[^:]*://','')
-	                   FROM dvobject f, dvobject s
-	                   WHERE f.dtype='DataFile' AND f.owner_id=s.id"""
-	records=get_records_for_query(dataverse_query)
-	result=[]
+	query="""SELECT f.id, REGEXP_REPLACE(f.storageidentifier,'^([^:]*)://.*','\\1'), REGEXP_REPLACE(s.storageidentifier,'^[^:]*://','') || '/' || REGEXP_REPLACE(f.storageidentifier,'^[^:]*://','')
+	         FROM dvobject f, dvobject s
+	         WHERE f.dtype='DataFile' AND f.owner_id=s.id"""
+	if idlist is not None:
+		query+=" AND f.id IN("+','.join(idlist)+")"
+	if not idlist:
+		return {}
+	records=get_records_for_query(query)
+	result={}
 	for r in records:
-		result.append({'id':r[0],'path':storagepaths[r[1]]+r[2]})
+		if separatePaths:
+			result.update({r[0] : (storagepaths[r[1]],r[2])})
+		else:
+			result.update({r[0] : storagepaths[r[1]]+r[2]})
 	return result
 
 def main():
@@ -102,16 +155,17 @@ def main():
 	ap = argparse.ArgumentParser()
 	ap.add_argument("command", choices=commands.keys(), help="what to do")
 	ap.add_argument("-n", "--name", required=False, help="name of the object")
-	ap.add_argument("-d", "--dataversename", required=False, help="name of the containing dataverse")
-	ap.add_argument("-i", "--id", required=False, help="id of the object")
-	ap.add_argument("--dataverseid", required=False, help="id of the containing dataverse")
+	ap.add_argument("-d", "--ownername", required=False, help="name of the containing/owner object")
+	ap.add_argument("-i", "--ids", required=False, help="id(s) of the object(s), comma separated")
+	ap.add_argument("--ownerid", required=False, help="id of the containing/owner object")
 	ap.add_argument("-t", "--type", choices=types, required=False, help="type of objects to list/move")
-	ap.add_argument("-s", "--storage", required=False, help="storage to list items from")
-#	ap.add_argument("-f", "--from", required=False, help="only consider entries after this date")
+	ap.add_argument("-s", "--storage", required=False, help="storage to list/move items from")
+#	ap.add_argument("-f", "--from", required=False, help="move only from the datastore of this name")
+	ap.add_argument("--to-storage", required=False, help="move to the datastore of this name, required for move")
 	args = vars(ap.parse_args())
 #	opts, args = getopt.getopt(argv, 'type:id:name:')
 
-#	print args
+	print args
 	commands[args['command']](args)
 
 

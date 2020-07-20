@@ -61,6 +61,13 @@ def moveFile(row,path,destStoragePath,destStorageName):
 	if src==dst:
 		print "skipping "+src+", as already in storage "+destStorageName
 		return
+	if not os.path.exists(src):
+		print "skipping non-existent file is "+src
+		return
+	dstDir=re.sub('/[^/]*$','',dst)
+	if not os.path.exists(dstDir):
+		print "creating "+dstDir
+		os.mkdir(dstDir)
 	print "copying from "+src+" to "+dst
 	copyfile(src, dst)
 	query="UPDATE dvobject SET storageidentifier=REGEXP_REPLACE(storageidentifier,'^[^:]*://',%s||'://') WHERE id=%s"

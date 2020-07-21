@@ -18,23 +18,24 @@ import shutil
 ### TODO: display some statistics
 def getList(args):
 	if args['type']=='dataverse':
-		q="""SELECT id, alias, description FROM dataverse  WHERE true"""
+		q="""SELECT id, alias, description FROM dataverse NATURAL JOIN dvobject WHERE true"""
 		if args['ids'] is not None:
-			q+=" AND ds1.id in ("+args['ids']+")"
+			q+=" AND id in ("+args['ids']+")"
+		if args['ownerid'] is not None:
+			q+=" AND owner_id="+str(args['ownerid'])
+		elif args['ownername'] is not None:
+			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id IN (SELECT id FROM dataverse WHERE alias='"+args['ownername']+"'"+"))"
 		if args['storage'] is not None:
 			q+=""" AND id IN
 			       (SELECT DISTINCT owner_id FROM dataset NATURAL JOIN dvobject WHERE storageidentifier LIKE '"""+args['storage']+"""://%')"""
 	elif args['type']=='dataset':
 		q="""SELECT ds1.id, dvo1.identifier, sum(filesize) FROM dataset ds1 NATURAL JOIN dvobject dvo1 JOIN (datafile df2 NATURAL JOIN dvobject dvo2) ON ds1.id=dvo2.owner_id
 		     WHERE true"""
-#		end=""
 		end=" GROUP BY ds1.id,dvo1.identifier"
 		if args['ownerid'] is not None:
-			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id="+args['ownerid']+")"
+			q+=" AND dvo1.owner_id="+str(args['ownerid'])
 		elif args['ownername'] is not None:
 			q+=" AND ds1.id IN (SELECT DISTINCT id FROM dvobject WHERE owner_id IN (SELECT id FROM dataverse WHERE alias='"+args['ownername']+"'"+"))"
-#		else:
-#			end=" GROUP BY ds1.id,dvo1.identifier"
 		if args['ids'] is not None:
 			q+=" AND ds1.id in ("+args['ids']+")"
 		if args['storage'] is not None:
@@ -45,9 +46,11 @@ def getList(args):
 		if args['ids'] is not None:
 			q+=" AND id in ("+args['ids']+")"
 		if args['ownerid'] is not None:
-			q+=" AND owner_id="+args['ownerid']
-#		elif args['ownername'] is not None:
-#			q+=
+			q+=" AND owner_id="+str(args['ownerid'])
+		elif args['ownername'] is not None:
+			print "Sorry, --ownername not implemented yet for files"
+			exit(1)
+			# q+= TODO
 		if args['storage'] is not None:
 			q+=" AND storageidentifier LIKE '"+args['storage']+"://%' ORDER BY owner_id"
 	print q
@@ -59,32 +62,39 @@ def ls(args):
 	for r in records:
 		print r
 
-def moveFile(row,path,destStoragePath,destStorageName):
+def changeStorageInDatabase(destStorageName,id):
+	query="UPDATE dvobject SET storageidentifier=REGEXP_REPLACE(storageidentifier,'^[^:]*://',%s||'://') WHERE id=%s"
+	print "updating database: "+query+" "+str((destStorageName,id))
+	sql_update(query,(destStorageName,id))
+
+def moveFileChecks(row,path,destStoragePath,destStorageName):
 	src=path[0]+path[1]
 	dst=destStoragePath+path[1]
 	id=str(row[0])
-#	print row
-#	print src
-#	exit(2)
 	if src==dst:
 		print "Skipping object "+id+", as already in storage "+destStorageName
-		return
+		return None,None
 	if not os.path.exists(src):
 		print "Skipping non-existent source file: "+src
-		return
+		return None,None
 	storageStats=os.statvfs(destStoragePath)
-	if storageStats.f_bfree*storageStats.f_bsize < row[4]+100000000: # we make sure there is at least 1000MB free space after copying the file  
-		print "There is not enough disk space to safely copy object "+id+". Skipping." 
-		return 
+#	print storageStats.f_bfree, storageStats.f_bsize, row[3]+1000000000
+	if storageStats.f_bfree*storageStats.f_bsize < row[3]+1000000000: # we make sure there is at least 1000MB free space after copying the file  
+		print "There is not enough disk space to safely copy object", id, ". Skipping." 
+		return None,None
 	dstDir=re.sub('/[^/]*$','',dst)
 	if not os.path.exists(dstDir):
 		print "creating "+dstDir
 		os.mkdir(dstDir)
-	print "copying from "+src+" to "+dst
+	return src,dst
+
+def moveFile(row,path,destStoragePath,destStorageName):
+	src,dst = moveFileChecks(row,path,destStoragePath,destStorageName)
+	if src is None:
+		return
+	print "copying from", src, "to", dst
 	shutil.copyfile(src, dst)
-	query="UPDATE dvobject SET storageidentifier=REGEXP_REPLACE(storageidentifier,'^[^:]*://',%s||'://') WHERE id=%s"
-	print "updating database: "+query+" "+str((destStorageName,id))
-	sql_update(query,(destStorageName,row[0]))
+	changeStorageInDatabase(destStorageName,row[0])
 	print "removing original file "+src
 	os.remove(src)
 
@@ -97,10 +107,27 @@ def mv(args):
 		print args['to_storage']+" is not a valid storage. Valid storages:"
 		pprint.PrettyPrinter(indent=4,width=10).pprint(storages)
 		exit(1)
-	filesToMove=getList(args)
-	filePaths=get_filepaths(idlist=[str(x[0]) for x in filesToMove],separatePaths=True)
-	for row in filesToMove:
-		moveFile(row,filePaths[row[0]],storages[args['to_storage']]['path'],args['to_storage'])
+	objectsToMove=getList(args)
+	if args['type']=='datafile' or args['type'] is None:
+		filePaths=get_filepaths(idlist=[str(x[0]) for x in objectsToMove],separatePaths=True)
+		for row in objectsToMove:
+			moveFile(row,filePaths[row[0]],storages[args['to_storage']]['path'],args['to_storage'])
+	else:
+		for row in objectsToMove:
+			changeStorageInDatabase(args['to_storage'],row[0])
+			if args['recursive']:
+				newargs={
+					'type':'dataverse',
+					'ownerid':row[0],
+					'to_storage':args['to_storage'],
+					'ids': None,
+					'storage':args['storage'],
+					'recursive': True}
+				mv(newargs)
+				newargs.update({'type':'dataset'})
+				mv(newargs)
+				newargs.update({'type':'datafile'})
+				mv(newargs)
 
 ### this is for checking that the files in the database are all there on disk where they should be
 def fsck(args):
@@ -185,6 +212,7 @@ def main():
 	ap.add_argument("-t", "--type", choices=types, required=False, help="type of objects to list/move")
 	ap.add_argument("-s", "--storage", required=False, help="storage to list/move items from")
 	ap.add_argument("--to-storage", required=False, help="move to the datastore of this name, required for move")
+	ap.add_argument("-r", "--recursive", required=False, action='store_true', help="make move recursive")
 	args = vars(ap.parse_args())
 #	opts, args = getopt.getopt(argv, 'type:id:name:')
 

@@ -189,6 +189,7 @@ Each of the three main sections own sets of properties:
 |                       | is meant to contain.  | | \• text              |
 |                       |                       | | \• textbox           |
 |                       |                       | | \• url               |
+|                       |                       | | \• uri_no            |
 |                       |                       | | \• int               |
 |                       |                       | | \• float             |
 |                       |                       | | \• See below for     |
@@ -399,7 +400,18 @@ FieldType definitions
 |                                   | .                                 |
 +-----------------------------------+-----------------------------------+
 | url                               | If not empty, field must contain  |
-|                                   | a valid URL.                      |
+|                                   | a valid URL, restricted to schemes|
+|                                   | ``http``, ``https``,              |
+|                                   | ``file``, ``jar``. (A limitation  |
+|                                   | of `Java URL class`_.)            |
++-----------------------------------+-----------------------------------+
+| uri_no                            | If not empty, field must contain  |
+|                                   | a valid, non-opaque, absolute URI.|
+|                                   | (Meaning an URL.)                 |
+|                                   | See also :rfc:`3986`,             |
+|                                   | `Good practices for URIs`_,       |
+|                                   | `W3C Axioms`_,                    |
+|                                   | `W3C URI Clarification`_.         |
 +-----------------------------------+-----------------------------------+
 | int                               | An integer value destined for a   |
 |                                   | numeric field.                    |
@@ -407,6 +419,11 @@ FieldType definitions
 | float                             | A floating point number destined  |
 |                                   | for a numeric field.              |
 +-----------------------------------+-----------------------------------+
+
+.. _Java URL class: https://docs.oracle.com/javase/8/docs/api/java/net/URL.html#URL-java.lang.String-java.lang.String-int-java.lang.String-
+.. _Good practices for URIs: https://www.ebi.ac.uk/rdf/documentation/good_practice_uri
+.. _W3C Axioms: https://www.w3.org/DesignIssues/Axioms.html
+.. _W3C URI Clarification: https://www.w3.org/TR/uri-clarification
 
 displayFormat variables
 ~~~~~~~~~~~~~~~~~~~~~~~

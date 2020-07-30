@@ -105,7 +105,7 @@ public class DublinCoreExportUtil {
         writeFullElement(xmlw, dcFlavor+":"+"title", dto2Primitive(version, DatasetFieldConstant.title));                       
         
         xmlw.writeStartElement(dcFlavor+":"+"identifier");
-        xmlw.writeCharacters(globalId.toURL().toString());
+        xmlw.writeCharacters(globalId.toConcordaUrl().toString());
         xmlw.writeEndElement(); // decterms:identifier       
 
         writeAuthorsElement(xmlw, version, dcFlavor);
@@ -155,7 +155,7 @@ public class DublinCoreExportUtil {
         writeFullElement(xmlw, dcFlavor+":"+"title", dto2Primitive(version, DatasetFieldConstant.title));                       
         
         xmlw.writeStartElement(dcFlavor+":"+"identifier");
-        xmlw.writeCharacters(globalId.toURL().toString());
+        xmlw.writeCharacters(globalId.toConcordaUrl().toString());
         xmlw.writeEndElement(); // decterms:identifier       
 
         writeAuthorsElement(xmlw, version, dcFlavor); //creator

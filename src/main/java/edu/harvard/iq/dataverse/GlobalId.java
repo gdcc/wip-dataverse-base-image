@@ -8,6 +8,8 @@ package edu.harvard.iq.dataverse;
 
 import edu.harvard.iq.dataverse.settings.SettingsServiceBean;
 import edu.harvard.iq.dataverse.util.BundleUtil;
+import edu.harvard.iq.dataverse.util.SystemConfig;
+
 import static edu.harvard.iq.dataverse.util.StringUtil.isEmpty;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -135,7 +137,20 @@ public class GlobalId implements java.io.Serializable {
             logger.log(Level.SEVERE, null, ex);
         }       
         return url;
-    }    
+    }
+
+    public URL toConcordaUrl(){
+        URL url = null;
+        if (identifier == null){
+            return null;
+        }
+        try {
+            url = new URL(SystemConfig.getDataverseSiteUrlStatic() + "/dataset.xhtml?persistentId=" + asString());
+        } catch (MalformedURLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+        return url;
+    }
 
     
     /** 

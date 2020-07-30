@@ -126,7 +126,8 @@ public class OREMap {
             }
         }
         // Add metadata related to the Dataset/DatasetVersion
-        aggBuilder.add("@id", id)
+        //PersistentId removed
+        aggBuilder//.add("@id", id)
                 .add("@type",
                         Json.createArrayBuilder().add(JsonLDTerm.ore("Aggregation").getLabel())
                                 .add(JsonLDTerm.schemaOrg("Dataset").getLabel()))
@@ -209,7 +210,8 @@ public class OREMap {
                 fileId = SystemConfig.getDataverseSiteUrlStatic() + "/file.xhtml?fileId=" + df.getId();
                 fileSameAs = SystemConfig.getDataverseSiteUrlStatic() + "/api/access/datafile/" + df.getId();
             }
-            aggRes.add("@id", fileId);
+            //PersistentId removed
+//            aggRes.add("@id", fileId);
             aggRes.add(JsonLDTerm.schemaOrg("sameAs").getLabel(), fileSameAs);
             fileArray.add(fileId);
 

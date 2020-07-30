@@ -81,7 +81,7 @@ public class OpenAireExportUtil {
         String language = null;
 
         // 1, Identifier (with mandatory type sub-property) (M)
-        writeIdentifierElement(xmlw, globalId.toURL().toString(), language);
+        writeIdentifierElement(xmlw, globalId.toConcordaUrl().toString(), language);
 
         // 2, Creator (with optional given name, family name, 
         //      name identifier and affiliation sub-properties) (M)

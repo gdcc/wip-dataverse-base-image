@@ -307,16 +307,16 @@ public class JsonPrinter {
                 .add("protocol", ds.getProtocol())
                 .add("authority", ds.getAuthority())
                 .add("publisher", getRootDataverseNameforCitation(ds))
-                .add("publicationDate", ds.getPublicationDateFormattedYYYYMMDD())
-                .add("storageIdentifier", ds.getStorageIdentifier());
+                .add("publicationDate", ds.getPublicationDateFormattedYYYYMMDD());
+//                .add("storageIdentifier", ds.getStorageIdentifier());
     }
 
     public static JsonObjectBuilder json(DatasetVersion dsv) {
         JsonObjectBuilder bld = jsonObjectBuilder()
                 .add("id", dsv.getId())
                 .add("datasetId", dsv.getDataset().getId())
-                .add("datasetPersistentId", dsv.getDataset().getGlobalId().asString())
-                .add("storageIdentifier", dsv.getDataset().getStorageIdentifier())
+//                .add("datasetPersistentId", dsv.getDataset().getGlobalId().asString())
+//                .add("storageIdentifier", dsv.getDataset().getStorageIdentifier())
                 .add("versionNumber", dsv.getVersionNumber())
                 .add("versionMinorNumber", dsv.getMinorVersionNumber())
                 .add("versionState", dsv.getVersionState().name())
@@ -590,7 +590,7 @@ public class JsonPrinter {
                 .add("description", df.getDescription())    
                 //.add("released", df.isReleased())
                 //.add("restricted", df.isRestricted())
-                .add("storageIdentifier", df.getStorageIdentifier())
+//                .add("storageIdentifier", df.getStorageIdentifier())
                 .add("originalFileFormat", df.getOriginalFileFormat())
                 .add("originalFormatLabel", df.getOriginalFormatLabel())
                 .add ("originalFileSize", df.getOriginalFileSize())

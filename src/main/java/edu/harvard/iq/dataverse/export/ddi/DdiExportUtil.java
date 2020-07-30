@@ -183,11 +183,12 @@ public class DdiExportUtil {
         writeFullElement(xmlw, "titl", dto2Primitive(version, DatasetFieldConstant.title));
         writeFullElement(xmlw, "subTitl", dto2Primitive(version, DatasetFieldConstant.subTitle));
         writeFullElement(xmlw, "altTitl", dto2Primitive(version, DatasetFieldConstant.alternativeTitle));
-        
-        xmlw.writeStartElement("IDNo");
-        writeAttribute(xmlw, "agency", persistentAgency);
-        xmlw.writeCharacters(persistentProtocol + ":" + persistentAuthority + "/" + persistentId);
-        xmlw.writeEndElement(); // IDNo
+
+        //PersistenId removed
+//        xmlw.writeStartElement("IDNo");
+//        writeAttribute(xmlw, "agency", persistentAgency);
+//        xmlw.writeCharacters(persistentProtocol + ":" + persistentAuthority + "/" + persistentId);
+//        xmlw.writeEndElement(); // IDNo
         writeOtherIdElement(xmlw, version);
         xmlw.writeEndElement(); // titlStmt
 
@@ -302,10 +303,11 @@ public class DdiExportUtil {
         xmlw.writeStartElement("citation");
         xmlw.writeStartElement("titlStmt");
         writeFullElement(xmlw, "titl", dto2Primitive(version, DatasetFieldConstant.title));
-        xmlw.writeStartElement("IDNo");
-        writeAttribute(xmlw, "agency", persistentAgency);
-        xmlw.writeCharacters(persistentProtocol + ":" + persistentAuthority + "/" + persistentId);
-        xmlw.writeEndElement(); // IDNo
+        //PersistentId removed
+//        xmlw.writeStartElement("IDNo");
+//        writeAttribute(xmlw, "agency", persistentAgency);
+//        xmlw.writeCharacters(persistentProtocol + ":" + persistentAuthority + "/" + persistentId);
+//        xmlw.writeEndElement(); // IDNo
         xmlw.writeEndElement(); // titlStmt
         xmlw.writeStartElement("distStmt");
         if (datasetDto.getPublisher() != null && !datasetDto.getPublisher().equals("")) {
@@ -1230,7 +1232,7 @@ public class DdiExportUtil {
                 String dfIdentifier = fileMetadata.getDataFile().getIdentifier();
                 if (dfIdentifier != null && !dfIdentifier.isEmpty()){
                     GlobalId globalId = new GlobalId(fileMetadata.getDataFile());
-                    writeAttribute(xmlw, "URI",  globalId.toURL().toString()); 
+                    writeAttribute(xmlw, "URI",  globalId.toConcordaUrl().toString());
                 }  else {
                     writeAttribute(xmlw, "URI", dataverseUrl + "/api/access/datafile/" + fileMetadata.getDataFile().getId()); 
                 }

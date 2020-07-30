@@ -240,7 +240,7 @@ public class Dataset extends DvObjectContainer {
     }
 
     public String getPersistentURL() {
-        return new GlobalId(this).toURL().toString();
+        return new GlobalId(this).toConcordaUrl().toString();
     }
     
     public List<DataFile> getFiles() {

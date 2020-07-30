@@ -1512,8 +1512,8 @@ public Response getUploadUrl(@PathParam("id") String idSupplied) {
 		}
         
 		JsonObjectBuilder response = Json.createObjectBuilder()
-	            .add("url", url)
-	            .add("storageIdentifier", storageIdentifier );
+	            .add("url", url);
+//	            .add("storageIdentifier", storageIdentifier );
 		return ok(response);
 	} catch (WrappedResponse wr) {
 		return wr.getResponse();

@@ -26,12 +26,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import edu.harvard.iq.dataverse.util.BundleUtil;
+import edu.harvard.iq.dataverse.util.SystemConfig;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -66,7 +68,7 @@ public class DataCitation {
     private List<String> spatialCoverages;
 
     private List<DatasetField> optionalValues = new ArrayList<>();
-    private int optionalURLcount = 0; 
+    private int optionalURLcount = 0;
 
     public DataCitation(DatasetVersion dsv) {
         this(dsv, false);
@@ -206,10 +208,11 @@ public class DataCitation {
         citationList.add(formatString(localTitle, html, "\""));
         }
 
-        if (persistentId != null) {
-        	// always show url format
-            citationList.add(formatURL(persistentId.toURL().toString(), persistentId.toURL().toString(), html)); 
-        }
+        //PersistenId removed
+//        if (persistentId != null) {
+//        	// always show url format
+//            citationList.add(formatURL(persistentId.toURL().toString(), persistentId.toURL().toString(), html));
+//        }
         citationList.add(formatString(localPublisher, html));
         citationList.add(version);
 
@@ -293,13 +296,13 @@ public class DataCitation {
         out.write("version = {");
         out.write(version);
         out.write("},\r\n");
-        out.write("doi = {");
-        out.write(persistentId.getAuthority());
-        out.write("/");
-        out.write(persistentId.getIdentifier());
-        out.write("},\r\n");
+//        out.write("doi = {");
+//        out.write(persistentId.getAuthority());
+//        out.write("/");
+//        out.write(persistentId.getIdentifier());
+//        out.write("},\r\n");
         out.write("url = {");
-        out.write(persistentId.toURL().toString());
+        out.write(persistentId.toConcordaUrl().toString());
         out.write("}\r\n");
         out.write("}\r\n");
         out.flush();
@@ -363,9 +366,10 @@ public class DataCitation {
             }
         }
 
-        if (persistentId != null) {
-            out.write("DO  - " + persistentId.toString() + "\r\n");
-        }
+        //PersistentId removed
+//        if (persistentId != null) {
+//            out.write("DO  - " + persistentId.toString() + "\r\n");
+//        }
         out.write("ET  - " + version + "\r\n");
         if (!keywords.isEmpty()) {
             for (String keyword : keywords) {
@@ -388,7 +392,8 @@ public class DataCitation {
         
         out.write("SE  - " + date + "\r\n");
 
-        out.write("UR  - " + persistentId.toURL().toString() + "\r\n");
+//        out.write("UR  - " + persistentId.toURL().toString() + "\r\n");
+        out.write("UR  - " + persistentId.toConcordaUrl() + "\r\n");
         out.write("PB  - " + publisher + "\r\n");
 
         // a DataFile citation also includes filename und UNF, if applicable:
@@ -585,7 +590,7 @@ public class DataCitation {
         xmlw.writeStartElement("urls");
         xmlw.writeStartElement("related-urls");
         xmlw.writeStartElement("url");
-        xmlw.writeCharacters(getPersistentId().toURL().toString());
+        xmlw.writeCharacters(getPersistentId().toConcordaUrl().toString());
         xmlw.writeEndElement(); // url
         xmlw.writeEndElement(); // related-urls
         xmlw.writeEndElement(); // urls
@@ -605,13 +610,13 @@ public class DataCitation {
                     xmlw.writeEndElement(); // custom2
             }
         }
-        if (persistentId != null) {
-            xmlw.writeStartElement("electronic-resource-num");
-            String electResourceNum = persistentId.getProtocol() + "/" + persistentId.getAuthority() + "/"
-                    + persistentId.getIdentifier();
-            xmlw.writeCharacters(electResourceNum);
-            xmlw.writeEndElement();
-        }
+//        if (persistentId != null) {
+//            xmlw.writeStartElement("electronic-resource-num");
+//            String electResourceNum = persistentId.getProtocol() + "/" + persistentId.getAuthority() + "/"
+//                    + persistentId.getIdentifier();
+//            xmlw.writeCharacters(electResourceNum);
+//            xmlw.writeEndElement();
+//        }
         //<electronic-resource-num>10.3886/ICPSR03259.v1</electronic-resource-num>                  
         xmlw.writeEndElement(); // record
 

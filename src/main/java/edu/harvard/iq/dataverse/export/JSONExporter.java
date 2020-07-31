@@ -36,6 +36,10 @@ public class JSONExporter implements Exporter {
             JSONObject obj = new JSONObject(json.toString());
             obj.remove("protocol");
             obj.remove("authority");
+            obj.remove("storageIdentifier");
+            if(obj.has("datasetVersion")){
+                ((JSONObject)obj.get("datasetVersion")).remove("storageIdentifier");
+            }
             outputStream.write(obj.toString().getBytes("UTF8"));
             outputStream.flush();
         } catch (Exception e){

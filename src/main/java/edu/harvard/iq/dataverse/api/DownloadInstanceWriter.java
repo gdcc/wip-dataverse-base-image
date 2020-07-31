@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -281,13 +282,13 @@ public class DownloadInstanceWriter implements MessageBodyWriter<DownloadInstanc
                 InputStream instream = storageIO.getInputStream();
                 if (instream != null) {
                     // headers:
-                    
-                    String fileName = storageIO.getFileName(); 
+
+                    //We want to support non ASCII characters in file names. For some reason, white space is encoded to '+', so this must be corrected at the end.
+                    String fileName = URLEncoder.encode(storageIO.getFileName(), "UTF-8").replace("+", "%20");
                     String mimeType = storageIO.getMimeType(); 
                     
                     // Provide both the "Content-disposition" and "Content-Type" headers,
-                    // to satisfy the widest selection of browsers out there. 
-                    
+                    // to satisfy the widest selection of browsers out there.
                     httpHeaders.add("Content-disposition", "attachment; filename=\"" + fileName + "\"");
                     httpHeaders.add("Content-Type", mimeType + "; name=\"" + fileName + "\"");
                     

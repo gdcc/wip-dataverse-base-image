@@ -166,6 +166,9 @@ public class DataverseUserPage implements java.io.Serializable {
             setCurrentUser((AuthenticatedUser) session.getUser());
             userAuthProvider = authenticationService.lookupProvider(currentUser);
             notificationsList = userNotificationService.findByUser(currentUser.getId());
+            if(selectTab == null){
+                selectTab = "";
+            }
             
             switch (selectTab) {
                 case "notifications":

@@ -563,9 +563,15 @@ public class DataverseServiceBean implements java.io.Serializable {
         
         String qstr = "select dv from Dataverse dv "
                 + "where (LOWER(dv.name) LIKE :dataverse and ((SUBSTRING(LOWER(dv.name),0,(LENGTH(dv.name)-9)) LIKE :pattern1) "
-                + "     or (SUBSTRING(LOWER(dv.name),0,(LENGTH(dv.name)-9)) LIKE :pattern2))) "
+                + "     or (SUBSTRING(LOWER(dv.name),0,(LENGTH(dv.name)-9)) LIKE :pattern2)"
+                + "     or (SUBSTRING(LOWER(dv.name_hu),0,(LENGTH(dv.name_hu)-9)) LIKE :pattern1)"
+                + "     or (SUBSTRING(LOWER(dv.name_hu),0,(LENGTH(dv.name_hu)-9)) LIKE :pattern2)"
+                + ")) "
                 + "or (LOWER(dv.name) NOT LIKE :dataverse and ((LOWER(dv.name) LIKE :pattern1) "
-                + "     or (LOWER(dv.name) LIKE :pattern2))) "
+                + "     or (LOWER(dv.name) LIKE :pattern2)"
+                + "     or (LOWER(dv.name_hu) LIKE :pattern1)"
+                + "     or (LOWER(dv.name_hu) LIKE :pattern2)"
+                + ")) "
                 + "order by dv.alias";
                 
         List<Dataverse> searchResults = null;

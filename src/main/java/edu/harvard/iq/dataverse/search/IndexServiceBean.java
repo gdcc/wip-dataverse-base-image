@@ -17,6 +17,7 @@ import edu.harvard.iq.dataverse.DvObject;
 import edu.harvard.iq.dataverse.DvObjectServiceBean;
 import edu.harvard.iq.dataverse.FileMetadata;
 import edu.harvard.iq.dataverse.PermissionServiceBean;
+import edu.harvard.iq.dataverse.api.Search;
 import edu.harvard.iq.dataverse.authorization.AuthenticationServiceBean;
 import edu.harvard.iq.dataverse.authorization.providers.builtin.BuiltinUserServiceBean;
 import edu.harvard.iq.dataverse.dataaccess.DataAccess;
@@ -864,8 +865,13 @@ public class IndexServiceBean {
                                 parentDatasetTitle = firstTitle;
                             }
                             solrInputDocument.addField(SearchFields.NAME_SORT, dsf.getValues());
-                            solrInputDocument.addField(SearchFields.NAME_SORT_HU, dsf.getValues());
+                            if(!solrInputDocument.containsKey(SearchFields.NAME_SORT_HU)) {
+                                solrInputDocument.addField(SearchFields.NAME_SORT_HU, dsf.getValues());
+                            }
                         } else if (dsf.getDatasetFieldType().getName().equals("title_hu")) {
+                            if(solrInputDocument.containsKey(SearchFields.NAME_SORT_HU)){
+                                solrInputDocument.removeField(SearchFields.NAME_SORT_HU);
+                            }
                             solrInputDocument.addField(SearchFields.NAME_SORT_HU, dsf.getValues());
                         }
                         if (dsfType.isControlledVocabulary()) {

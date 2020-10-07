@@ -63,7 +63,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Dataverse extends DvObjectContainer {
 
     public String getName_hu() {
-        return name_hu != null ? name_hu : name;
+        return name_hu;
     }
 
     public void setName_hu(String name_hu) {

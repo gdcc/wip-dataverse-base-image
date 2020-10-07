@@ -198,7 +198,11 @@ public class IndexServiceBean {
         solrInputDocument.addField(SearchFields.NAME, dataverse.getName());
         solrInputDocument.addField(SearchFields.NAME_HU, dataverse.getName_hu());
         solrInputDocument.addField(SearchFields.NAME_SORT, dataverse.getName());
-        solrInputDocument.addField(SearchFields.NAME_SORT_HU, dataverse.getName_hu());
+        if(StringUtils.isEmpty(dataverse.getName_hu())){
+            solrInputDocument.addField(SearchFields.NAME_SORT_HU, dataverse.getName());
+        }else{
+            solrInputDocument.addField(SearchFields.NAME_SORT_HU, dataverse.getName_hu());
+        }
         solrInputDocument.addField(SearchFields.DATAVERSE_NAME, dataverse.getName());
         solrInputDocument.addField(SearchFields.DATAVERSE_NAME_HU, dataverse.getName_hu());
         solrInputDocument.addField(SearchFields.DATAVERSE_ALIAS, dataverse.getAlias());

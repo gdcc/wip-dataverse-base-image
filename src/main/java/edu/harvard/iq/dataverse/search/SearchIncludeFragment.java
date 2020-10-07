@@ -116,6 +116,7 @@ public class SearchIncludeFragment implements java.io.Serializable {
     private String searchFieldSubtree = SearchFields.SUBTREE;
 //    private String searchFieldHostDataverse = SearchFields.HOST_DATAVERSE;
     private String searchFieldNameSort = SearchFields.NAME_SORT;
+    private String searchFieldNameSort_hu = SearchFields.NAME_SORT_HU;
     private String searchFieldRelevance = SearchFields.RELEVANCE;
 //    private String searchFieldReleaseDate = SearchFields.RELEASE_DATE_YYYY;
     private String searchFieldReleaseOrCreateDate = SearchFields.RELEASE_OR_CREATE_DATE;
@@ -811,7 +812,11 @@ public class SearchIncludeFragment implements java.io.Serializable {
     }
 
     public String getSearchFieldNameSort() {
-        return searchFieldNameSort;
+        if("hu".equals(BundleUtil.getStringFromBundle("lang").trim())){
+            return searchFieldNameSort_hu;
+        }else {
+            return searchFieldNameSort;
+        }
     }
 
     public void setSearchFieldNameSort(String searchFieldNameSort) {

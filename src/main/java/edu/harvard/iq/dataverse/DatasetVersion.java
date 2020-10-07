@@ -1402,6 +1402,9 @@ public class DatasetVersion implements Serializable {
     public String getRootDataverseNameforCitation(boolean isHun){
                     //Get root dataverse name for Citation
         Dataverse root = this.getDataset().getOwner();
+        if(root == null){
+            return "";
+        }
         while (root.getOwner() != null) {
             root = root.getOwner();
         }

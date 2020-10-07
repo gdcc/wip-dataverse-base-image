@@ -612,7 +612,7 @@
                     </ui:fragment>
                     <!-- Create/Save Dataset Button Panel TOP editMode -->
                     <div class="button-block form-top" jsf:rendered="#{DatasetPage.editMode == 'METADATA' or DatasetPage.editMode == 'LICENSE'}">
-                        <p:commandButton id="saveTop" styleClass="btn btn-default" value="#{bundle.saveChanges}" onclick="checkIfHostDataverseIsInvalid(); checkNewlyRestricted();PF('blockDatasetForm').show();"/>
+                        <p:commandButton id="saveTop" styleClass="btn btn-default" value="#{bundle.saveChanges}" onclick="checkNewlyRestricted();PF('blockDatasetForm').show();"/>
                         <p:commandButton id="cancelTop" styleClass="btn btn-link" value="#{bundle.cancel}" action="#{DatasetPage.cancel}" process="@this" update="@form" oncomplete="javascript:bind_bsui_components();">
                             <f:setPropertyActionListener target="#{DatasetPage.selectedTabIndex}" value="#{DatasetPage.editMode == 'METADATA' ? 1 : DatasetPage.selectedTabIndex}"/>
                         </p:commandButton>
@@ -751,7 +751,7 @@
                     </div>
                     <!-- Create/Save Dataset Button Panel BTM editMode -->
                     <div class="button-block" jsf:rendered="#{!empty DatasetPage.editMode}">
-                        <p:commandButton id="save" styleClass="btn btn-default" value="#{DatasetPage.editMode == 'CREATE' ? bundle['file.addBtn'] : bundle.saveChanges}" onclick="resetHostDataverseIfInvalid(); checkNewlyRestricted();PF('blockDatasetForm').show();"/>
+                        <p:commandButton id="save" styleClass="btn btn-default" value="#{DatasetPage.editMode == 'CREATE' ? bundle['file.addBtn'] : bundle.saveChanges}" onclick="checkNewlyRestricted();PF('blockDatasetForm').show();"/>
                         <p:commandButton id="cancel" styleClass="btn btn-link" value="#{bundle.cancel}" action="#{DatasetPage.cancel}" process="@this" update="@form" rendered="#{DatasetPage.editMode != 'CREATE'}" oncomplete="javascript:bind_bsui_components();">
                             <f:setPropertyActionListener target="#{DatasetPage.selectedTabIndex}" value="#{DatasetPage.editMode == 'METADATA' ? 1 : DatasetPage.selectedTabIndex}"/>
                         </p:commandButton>
@@ -761,7 +761,6 @@
                                          style="display:none"
                                          update=":datasetForm,:messagePanel"
                                          oncomplete="javascript:bind_bsui_components();$(document).scrollTop(0);"
-                                         onclick="resetHostDataverseIfInvalid()"
                                          action="#{DatasetPage.save}"/>
                     </div>
                     <!-- END: Create/Save Dataset Button Panel BTM editMode -->

@@ -195,4 +195,8 @@ public class BundleUtil {
         return Locale.getDefault();
     }
 
+    public static boolean isHungarian(){
+        return "hu".equals(getStringFromBundle("lang").trim());
+    }
+
 }

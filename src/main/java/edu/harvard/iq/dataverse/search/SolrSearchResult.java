@@ -271,7 +271,8 @@ public class SolrSearchResult {
     }
 
     public String getNameHighlightSnippet() {
-        Highlight highlight = highlightsAsMap.get(SearchFields.NAME);
+        String key = BundleUtil.isHungarian() ? SearchFields.NAME_HU : SearchFields.NAME;
+        Highlight highlight = highlightsAsMap.get(key);
         if (highlight != null) {
             String firstSnippet = highlight.getSnippets().get(0);
             if (firstSnippet != null) {
@@ -309,7 +310,8 @@ public class SolrSearchResult {
          * indexing titles as names:
          * https://redmine.hmdc.harvard.edu/issues/3798#note-2
          */
-        Highlight highlight = highlightsAsMap.get("title");
+        String key = BundleUtil.isHungarian() ? "title_hu" : "title";
+        Highlight highlight = highlightsAsMap.get(key);
         if (highlight != null) {
             String firstSnippet = highlight.getSnippets().get(0);
             if (firstSnippet != null) {
@@ -326,9 +328,11 @@ public class SolrSearchResult {
             logger.fine("SolrSearchResult class: " + solrField.getNameSearchable() + ":" + highlight.getSnippets());
         }
 
-        Highlight highlight = highlightsAsMap.get(SearchFields.DESCRIPTION);
+        String key = BundleUtil.isHungarian() ? SearchFields.DESCRIPTION_HU : SearchFields.DESCRIPTION;
+        Highlight highlight = highlightsAsMap.get(key);
         if (type.equals("datasets")) {
-            highlight = highlightsAsMap.get(SearchFields.DATASET_DESCRIPTION);
+            key = BundleUtil.isHungarian() ? SearchFields.DATASET_DESCRIPTION_HU : SearchFields.DATASET_DESCRIPTION;
+            highlight = highlightsAsMap.get(key);
         }
         if (highlight != null) {
             return highlight.getSnippets();

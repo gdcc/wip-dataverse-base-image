@@ -258,6 +258,7 @@ public class IndexServiceBean {
             if (dataverse.getOwner() != null) {
                 solrInputDocument.addField(SearchFields.PARENT_ID, dataverse.getOwner().getId());
                 solrInputDocument.addField(SearchFields.PARENT_NAME, dataverse.getOwner().getName());
+                solrInputDocument.addField(SearchFields.PARENT_NAME_HU, dataverse.getOwner().getName_hu());
             }
         }
         List<String> dataversePathSegmentsAccumulator = new ArrayList<>();
@@ -917,6 +918,7 @@ public class IndexServiceBean {
         // dataset.getOwner().getName());
         solrInputDocument.addField(SearchFields.PARENT_ID, dataset.getOwner().getId());
         solrInputDocument.addField(SearchFields.PARENT_NAME, dataset.getOwner().getName());
+        solrInputDocument.addField(SearchFields.PARENT_NAME_HU, dataset.getOwner().getName_hu());
 
         if (state.equals(indexableDataset.getDatasetState().DEACCESSIONED)) {
             String deaccessionNote = datasetVersion.getVersionNote();

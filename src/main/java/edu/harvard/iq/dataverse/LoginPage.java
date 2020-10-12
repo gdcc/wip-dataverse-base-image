@@ -15,6 +15,8 @@ import edu.harvard.iq.dataverse.util.BundleUtil;
 import edu.harvard.iq.dataverse.util.JsfHelper;
 import static edu.harvard.iq.dataverse.util.JsfHelper.JH;
 import edu.harvard.iq.dataverse.util.SystemConfig;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
@@ -170,7 +172,7 @@ public class LoginPage implements java.io.Serializable {
             session.setUser(r);
             session.configureSessionTimeout();
             
-            if ("dataverse.xhtml".equals(redirectPage)) {
+            if (StringUtils.isBlank(redirectPage) || "dataverse.xhtml".equals(redirectPage)) {
                 redirectPage = redirectToRoot();
             }
             

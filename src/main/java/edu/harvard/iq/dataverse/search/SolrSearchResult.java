@@ -7,13 +7,14 @@ import edu.harvard.iq.dataverse.DatasetVersion;
 import edu.harvard.iq.dataverse.DvObject;
 import edu.harvard.iq.dataverse.api.Util;
 import edu.harvard.iq.dataverse.dataset.DatasetThumbnail;
+import edu.harvard.iq.dataverse.util.BundleUtil;
 import edu.harvard.iq.dataverse.util.DateUtil;
 import edu.harvard.iq.dataverse.util.json.JsonPrinter;
 import edu.harvard.iq.dataverse.util.json.NullSafeJsonBuilder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.http.client.utils.DateUtils;
+
+import java.util.*;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -1003,7 +1004,11 @@ public class SolrSearchResult {
     }
 
     public String getDateToDisplayOnCard() {
-        return DateUtil.formatDate(this.releaseOrCreateDate);
+        if("hu".equals(BundleUtil.getStringFromBundle("lang").trim())){
+            return DateFormatUtils.format(this.releaseOrCreateDate, "yyyy. MMMM. dd.", Locale.forLanguageTag("hu"));
+        }
+        return DateUtils.formatDate(this.releaseOrCreateDate, "dd. MMMM. yyyy.");
+//        return DateUtil.formatDate(this.releaseOrCreateDate);
     }
 
     public long getDatasetVersionId() {

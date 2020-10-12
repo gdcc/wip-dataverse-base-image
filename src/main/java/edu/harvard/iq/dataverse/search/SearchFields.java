@@ -231,6 +231,7 @@ public class SearchFields {
      */
     public static final String ENTITY_ID = "entityId";
     public static final String PARENT_NAME = "parentName";
+    public static final String PARENT_NAME_HU = "parentName_hu";
     public static final String PARENT_ID = "parentId";
     public static final String PARENT_IDENTIFIER = "parentIdentifier";
     /**

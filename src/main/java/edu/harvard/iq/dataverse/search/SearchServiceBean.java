@@ -39,6 +39,8 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionRolledbackLocalException;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -607,7 +609,12 @@ public class SearchServiceBean {
              * @todo store PARENT_ID as a long instead and cast as such
              */
             parent.put("id", (String) solrDocument.getFieldValue(SearchFields.PARENT_ID));
-            parent.put("name", (String) solrDocument.getFieldValue(SearchFields.PARENT_NAME));
+            if("hu".equals(BundleUtil.getStringFromBundle("lang").trim()) && StringUtils.isNotBlank((String) solrDocument.getFieldValue(SearchFields.PARENT_NAME_HU))){
+                parent.put("name", (String) solrDocument.getFieldValue(SearchFields.PARENT_NAME_HU));
+            }else{
+                parent.put("name", (String) solrDocument.getFieldValue(SearchFields.PARENT_NAME));
+            }
+
             parent.put("citation", (String) solrDocument.getFieldValue(SearchFields.PARENT_CITATION));
             solrSearchResult.setParent(parent);
             solrSearchResults.add(solrSearchResult);

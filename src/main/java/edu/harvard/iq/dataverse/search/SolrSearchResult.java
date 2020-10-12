@@ -839,6 +839,10 @@ public class SolrSearchResult {
                     && !field.equals(SearchFields.DESCRIPTION)
                     && !field.equals(SearchFields.DATASET_DESCRIPTION)
                     && !field.equals(SearchFields.AFFILIATION)
+                    && !field.equals(SearchFields.NAME_HU)
+                    && !field.equals(SearchFields.DESCRIPTION_HU)
+                    && !field.equals(SearchFields.DATASET_DESCRIPTION_HU)
+                    && !field.equals("title_hu")
                     && !field.equals("title")) {
                 filtered.add(highlight);
             }

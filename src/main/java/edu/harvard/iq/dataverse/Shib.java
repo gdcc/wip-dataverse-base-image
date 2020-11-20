@@ -57,6 +57,8 @@ public class Shib implements java.io.Serializable {
     SettingsServiceBean settingsService;
 	@EJB
 	SystemConfig systemConfig;
+    @EJB
+    UserServiceBean userServiceBean;
 
     HttpServletRequest request;
 
@@ -358,6 +360,7 @@ public class Shib implements java.io.Serializable {
 
     private void logInUserAndSetShibAttributes(AuthenticatedUser au) {
         au.setShibIdentityProvider(shibIdp);
+        userServiceBean.updateLastLogin(au);
         session.setUser(au);
         session.configureSessionTimeout();
         logger.fine("Groups for user " + au.getId() + " (" + au.getIdentifier() + "): " + getGroups(au));

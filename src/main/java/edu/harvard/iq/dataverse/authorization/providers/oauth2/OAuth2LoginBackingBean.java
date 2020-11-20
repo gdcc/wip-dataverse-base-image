@@ -1,6 +1,7 @@
 package edu.harvard.iq.dataverse.authorization.providers.oauth2;
 
 import edu.harvard.iq.dataverse.DataverseSession;
+import edu.harvard.iq.dataverse.UserServiceBean;
 import edu.harvard.iq.dataverse.authorization.AuthenticationServiceBean;
 import edu.harvard.iq.dataverse.authorization.UserRecordIdentifier;
 import edu.harvard.iq.dataverse.authorization.users.AuthenticatedUser;
@@ -59,6 +60,9 @@ public class OAuth2LoginBackingBean implements Serializable {
     @EJB
     SystemConfig systemConfig;
 
+    @EJB
+    UserServiceBean userServiceBean;
+
     @Inject
     DataverseSession session;
 
@@ -108,6 +112,7 @@ public class OAuth2LoginBackingBean implements Serializable {
                     // login the user and redirect to HOME of intended page (if any).
                     session.setUser(dvUser);
                     session.configureSessionTimeout();
+                    userServiceBean.updateLastLogin(dvUser);
                     final OAuth2TokenData tokenData = oauthUser.getTokenData();
                     if (tokenData != null) {
                         tokenData.setUser(dvUser);

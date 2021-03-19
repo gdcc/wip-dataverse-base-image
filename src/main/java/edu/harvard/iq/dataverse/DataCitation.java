@@ -203,9 +203,10 @@ public class DataCitation {
         citationList.add(year);
         if ((fileTitle != null) && isDirect()) {
             citationList.add(formatString(fileTitle, html, "\""));
-            citationList.add(formatString(localTitle, html, "<i>", "</i>"));
+            citationList.add(formatString(localTitle, html, "<em>", "</em>"));
+            citationList.add(formatString(title, html, "<em>", "</em>"));
         } else {
-        citationList.add(formatString(localTitle, html, "\""));
+            citationList.add(formatString(localTitle, html, "\""));
         }
 
         //PersistenId removed

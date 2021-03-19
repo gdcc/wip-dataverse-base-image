@@ -689,11 +689,12 @@ public class AdminIT {
 
         byte[] updatedContent = null;
         try {
-            updatedContent = Files.readAllBytes(Paths.get("src/test/resources/tsv/citation.tsv"));
+            updatedContent = Files.readAllBytes(Paths.get("scripts/api/data/metadatablocks/citation.tsv"));
         } catch (IOException e) {
             logger.warning(e.getMessage());
             assertEquals(0,1);
         }
+
         Response response = UtilIT.loadMetadataBlock(apiToken, updatedContent);
         assertEquals(200, response.getStatusCode());
         response.then().assertThat().statusCode(OK.getStatusCode());
@@ -749,5 +750,40 @@ public class AdminIT {
           "Error parsing metadata block in DATASETFIELD part, line #5: missing 'watermark' column (#5)",
           message
         );
+    }
+    
+    @Test
+    public void testBannerMessages(){
+        
+        String pathToJsonFile = "scripts/api/data/bannerMessageError.json";
+        Response addBannerMessageErrorResponse = UtilIT.addBannerMessage(pathToJsonFile);
+        addBannerMessageErrorResponse.prettyPrint();
+        String body = addBannerMessageErrorResponse.getBody().asString();
+        String status = JsonPath.from(body).getString("status");
+        assertEquals("ERROR", status);
+        
+        pathToJsonFile = "scripts/api/data/bannerMessageTest.json";
+        
+        Response addBannerMessageResponse = UtilIT.addBannerMessage(pathToJsonFile);
+        addBannerMessageResponse.prettyPrint();
+        body = addBannerMessageResponse.getBody().asString();
+        status = JsonPath.from(body).getString("status");
+        assertEquals("OK", status);
+        
+        Response getBannerMessageResponse = UtilIT.getBannerMessages();
+        getBannerMessageResponse.prettyPrint();
+        body = getBannerMessageResponse.getBody().asString();
+        status = JsonPath.from(body).getString("status");
+        assertEquals("OK", status);
+        String deleteId = UtilIT.getBannerMessageIdFromResponse(getBannerMessageResponse.getBody().asString());
+         
+        System.out.print("delete id: " + deleteId);
+        
+        Response deleteBannerMessageResponse = UtilIT.deleteBannerMessage(new Long (deleteId));
+        deleteBannerMessageResponse.prettyPrint();
+        body = deleteBannerMessageResponse.getBody().asString();
+        status = JsonPath.from(body).getString("status");
+        assertEquals("OK", status);
+        
     }
 }

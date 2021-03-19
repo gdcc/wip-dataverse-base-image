@@ -44,16 +44,14 @@ public class MailUtil {
                 return BundleUtil.getStringFromBundle("notification.email.grant.file.access.subject", rootDvNameAsList);
             case REJECTFILEACCESS:
                 return BundleUtil.getStringFromBundle("notification.email.rejected.file.access.subject", rootDvNameAsList);
-            case MAPLAYERUPDATED:
-                return BundleUtil.getStringFromBundle("notification.email.update.maplayer", rootDvNameAsList);
-            case MAPLAYERDELETEFAILED:
-                return BundleUtil.getStringFromBundle("notification.email.maplayer.deletefailed.subject", rootDvNameAsList);
             case CREATEDS:
                 return BundleUtil.getStringFromBundle("notification.email.create.dataset.subject", rootDvNameAsList);
             case SUBMITTEDDS:
                 return BundleUtil.getStringFromBundle("notification.email.submit.dataset.subject", rootDvNameAsList);
             case PUBLISHEDDS:
                 return BundleUtil.getStringFromBundle("notification.email.publish.dataset.subject", rootDvNameAsList);
+            case PUBLISHFAILED_PIDREG:
+                return BundleUtil.getStringFromBundle("notification.email.publishFailure.dataset.subject", rootDvNameAsList);
             case RETURNEDDS:
                 return BundleUtil.getStringFromBundle("notification.email.returned.dataset.subject", rootDvNameAsList);
             case CREATEACC:

@@ -39,6 +39,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author mbarsinai
  */
 @NamedQueries({
+    @NamedQuery(name = "Dataverse.findIdStale",query = "SELECT d.id FROM Dataverse d WHERE d.indexTime is NULL OR d.indexTime < d.modificationTime"),
+    @NamedQuery(name = "Dataverse.findIdStalePermission",query = "SELECT d.id FROM Dataverse d WHERE d.permissionIndexTime is NULL OR d.permissionIndexTime < d.permissionModificationTime"),
     @NamedQuery(name = "Dataverse.ownedObjectsById", query = "SELECT COUNT(obj) FROM DvObject obj WHERE obj.owner.id=:id"),
     @NamedQuery(name = "Dataverse.findAll", query = "SELECT d FROM Dataverse d order by d.name"),
     @NamedQuery(name = "Dataverse.findRoot", query = "SELECT d FROM Dataverse d where d.owner.id=null"),
@@ -168,7 +170,7 @@ public class Dataverse extends DvObjectContainer {
 
     private String affiliation;
     
-    private String storageDriver=null;
+    ///private String storageDriver=null;
 
 	// Note: We can't have "Remove" here, as there are role assignments that refer
     //       to this role. So, adding it would mean violating a forign key contstraint.

@@ -430,7 +430,7 @@ public class Shib implements java.io.Serializable {
             throw new Exception(msg);
         }
         String attributeValue = attribute.toString();
-		if (attributeValue.isEmpty()) {
+        if (attributeValue.isEmpty()) {
             throw new Exception(key + " was empty");
         }
 		if(systemConfig.isShibAttributeCharacterSetConversionEnabled()) {

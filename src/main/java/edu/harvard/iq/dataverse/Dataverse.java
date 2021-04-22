@@ -783,34 +783,6 @@ public class Dataverse extends DvObjectContainer {
         return false;
     }
 
-	public String getEffectiveStorageDriverId() {
-		String id = storageDriver;
-		if(StringUtils.isBlank(id)) {
-			if(this.getOwner() != null) {
-				id = this.getOwner().getEffectiveStorageDriverId(); 
-			} else {
-				id= DataAccess.DEFAULT_STORAGE_DRIVER_IDENTIFIER;
-			}
-		}
-		return id;
-	}
-	
-	
-	public String getStorageDriverId() {
-		if(storageDriver==null) {
-			return DataAccess.UNDEFINED_STORAGE_DRIVER_IDENTIFIER;
-		}
-		return storageDriver;
-	}
-
-	public void setStorageDriverId(String storageDriver) {
-		if(storageDriver!=null&&storageDriver.equals(DataAccess.UNDEFINED_STORAGE_DRIVER_IDENTIFIER)) {
-			this.storageDriver=null;
-		} else {
-		  this.storageDriver = storageDriver;
-		}
-	}
-
 	public String getLocalizedName(){
 //        String lang = BundleUtil.getCurrentLocale().getLanguage();
         if(("hu".equals(BundleUtil.getStringFromBundle("lang").trim())) && this.name_hu != null){

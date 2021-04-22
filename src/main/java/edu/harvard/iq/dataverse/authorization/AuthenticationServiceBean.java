@@ -478,25 +478,6 @@ public class AuthenticationServiceBean {
         return null;
     }
     
-    public AuthenticatedUser lookupUserForWorkflowInvocationID(String wfId) {
-        try {
-            PendingWorkflowInvocation pwfi = em.find(PendingWorkflowInvocation.class, wfId);
-            if (pwfi == null) {
-                return null;
-            }
-            if (pwfi.getUserId().startsWith(AuthenticatedUser.IDENTIFIER_PREFIX)) {
-                if (pwfi.getLocalData().containsKey(PendingWorkflowInvocation.AUTHORIZED)
-                        && Boolean.parseBoolean(pwfi.getLocalData().get(PendingWorkflowInvocation.AUTHORIZED))) {
-                    return getAuthenticatedUser(
-                            pwfi.getUserId().substring(AuthenticatedUser.IDENTIFIER_PREFIX.length()));
-                }
-            }
-        } catch (NoResultException ex) {
-            return null;
-        }
-        return null;
-    }
-    
     /*
     getDeleteUserErrorMessages( AuthenticatedUser au )
     method which checks for reasons that a user may not be deleted

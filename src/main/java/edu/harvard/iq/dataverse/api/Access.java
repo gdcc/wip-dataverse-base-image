@@ -275,13 +275,18 @@ public class Access extends AbstractApiBean {
     @Produces({"application/xml"})
     public DownloadInstance datafile(@PathParam("fileId") String fileId, @QueryParam("gbrecs") boolean gbrecs, @QueryParam("key") String apiToken, @Context UriInfo uriInfo, @Context HttpHeaders headers, @Context HttpServletResponse response) /*throws NotFoundException, ServiceUnavailableException, PermissionDeniedException, AuthorizationRequiredException*/ {
         
+        // check first if there's a trailing slash, and chop it: 
+        while (fileId.lastIndexOf('/') == fileId.length() - 1) {
+            fileId = fileId.substring(0, fileId.length() - 1);
+        }
+        
         if (fileId.indexOf('/') > -1) {
             // This is for embedding folder names into the Access API URLs;
             // something like /api/access/datafile/folder/subfolder/1234
             // instead of the normal /api/access/datafile/1234 notation. 
             // this is supported only for recreating folders during recursive downloads - 
             // i.e. they are embedded into the URL for the remote client like wget,
-            // but can be safely ignored here. 
+            // but can be safely ignored here.
             fileId = fileId.substring(fileId.lastIndexOf('/') + 1);
         }
                 
@@ -703,7 +708,7 @@ public class Access extends AbstractApiBean {
         if (rawFileIds == null || rawFileIds.equals("")) {
             throw new BadRequestException();
         }
-
+        
         final String fileIds;
         if(rawFileIds.startsWith("fileIds=")) {
             fileIds = rawFileIds.substring(8); // String "fileIds=" from the front

@@ -26,11 +26,7 @@ The guest user does not live in the database so it does not have an id. Moreover
 While merging, you will encounter this situation:
 
 ```java
-    <<<<<<< HEAD
     code with new functionality or bug fixes, that uses the old user system
-    =======
-    code with old functionality that uses the new user system
-    >>>>>>> origin
 ```
 
 So, there's no "keep the latest code and remove the old one" here - there is some real merging to be done.

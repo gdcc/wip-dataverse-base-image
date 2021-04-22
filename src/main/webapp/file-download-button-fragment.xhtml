@@ -167,52 +167,6 @@
                     </li>
                 </ul>
             </li>
-<<<<<<< HEAD
-        </ul>
-    </div>        
-    <p:commandLink styleClass="btn btn-default btn-request" rendered="#{(fileDownloadHelper.session.user.authenticated 
-                                                                          and !fileMetadata.datasetVersion.deaccessioned
-                                                                          and fileMetadata.dataFile.owner.fileAccessRequest 
-                                                                          and !(fileDownloadHelper.canDownloadFile(fileMetadata)))
-                                                                          and !requestAccessPopupRequired}"
-                   process="@this"
-                   actionListener="#{fileDownloadHelper.requestAccess(fileMetadata.dataFile)}"
-                   update="@this"
-                   disabled="#{fileMetadata.dataFile.fileAccessRequesters.contains(dataverseSession.user)}">
-        <span class="glyphicon glyphicon-bullhorn"/> #{fileMetadata.dataFile.fileAccessRequesters.contains(dataverseSession.user) ? bundle['file.accessRequested'] : bundle['file.requestAccess']}
-    </p:commandLink>
-    <p:commandLink styleClass="btn btn-default btn-request" rendered="#{fileDownloadHelper.session.user.authenticated 
-                                                                          and !fileMetadata.datasetVersion.deaccessioned
-                                                                          and fileMetadata.dataFile.owner.fileAccessRequest 
-                                                                          and !(fileDownloadHelper.canDownloadFile(fileMetadata))
-                                                                          and requestAccessPopupRequired}"
-                   process="@this"
-                   actionListener="#{fileDownloadHelper.addFileForRequestAccess(fileMetadata.dataFile)}"
-                   onclick="PF('requestAccessPopup').show()"
-                   id="requestAccessPopupButton"
-                   disabled="#{fileMetadata.dataFile.fileAccessRequesters.contains(dataverseSession.user)}">
-        <span class="glyphicon glyphicon-bullhorn"/> #{fileMetadata.dataFile.fileAccessRequesters.contains(dataverseSession.user) ? bundle['file.accessRequested'] : bundle['file.requestAccess']}
-    </p:commandLink>
-    <p:commandLink styleClass="btn btn-default btn-request" rendered="#{!fileDownloadHelper.session.user.authenticated 
-                                                                          and !fileMetadata.datasetVersion.deaccessioned
-                                                                          and fileMetadata.dataFile.owner.fileAccessRequest 
-                                                                          and !(fileDownloadHelper.canDownloadFile(fileMetadata))}"
-                   process="@this"
-                   onclick="PF('accessSignUpLogIn_popup').show()">
-        <!-- 4.2.1 - TODO: retest this on a dataset with fileRequest enabled and with some files restricted to the user -->
-        <span class="glyphicon glyphicon-bullhorn"/> #{fileMetadata.dataFile.fileAccessRequesters.contains(dataverseSession.user) ? bundle['file.accessRequested'] : bundle['file.requestAccess']}
-    </p:commandLink>
-    <script type="text/javascript">
-      function downloadFiles(url, filelist) {
-        filelist=filelist + ','; //Prevents last file from being dropped on server
-        var form = $('<form></form>').attr('action', url).attr('method', 'post').attr('enctype','text/plain');
-        form.append($("<input></input>").attr('type', 'hidden').attr('name', 'fileIds').attr('value', filelist));
-        //Submit and then remove form
-        form.appendTo('body').submit().remove();
-      }
-    </script>
-</ui:composition>
-=======
         </ui:fragment>
         <!-- END: SUBMENU LINK -->
         <!-- UI HACK FIX SUBMENU PULL-FLOAT FIX -->

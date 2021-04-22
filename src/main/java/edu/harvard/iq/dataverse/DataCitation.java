@@ -5,6 +5,7 @@
  */
 package edu.harvard.iq.dataverse;
 
+import edu.harvard.iq.dataverse.branding.BrandingUtil;
 import edu.harvard.iq.dataverse.harvest.client.HarvestingClient;
 
 import java.io.BufferedWriter;
@@ -762,6 +763,7 @@ public class DataCitation {
     private String getPublisherFrom(DatasetVersion dsv, boolean isHun) {
         if (!dsv.getDataset().isHarvested()) {
             return dsv.getRootDataverseNameforCitation(isHun);
+//            return BrandingUtil.getInstallationBrandName();
         } else {
             return dsv.getDistributorName();
             // remove += [distributor] SEK 8-18-2016

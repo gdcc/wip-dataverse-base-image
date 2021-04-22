@@ -1696,23 +1696,6 @@
                     function updateTemplate() {
                         $('button[id$="updateTemplate"]').trigger('click');
                     }
-<<<<<<< HEAD
-                    function checkNewlyRestricted() {
-                        if ($('input[id$="showAccessPopup"]').val() === 'true') {
-                            PF('accessPopup').show();
-                        } else {
-                            $('button[id$="datasetSave"]').trigger('click');
-                        }
-                    }
-                    function checkIfHostDataverseIsInvalid(){
-                        var hostInput = document.getElementById("datasetForm:selectHostDataverse_hinput");
-                        if(hostInput !== null && isNaN($(hostInput).val()) == true){
-                            alert("You must choose a valid host dataverse!");
-                            throw new Exception("Invalid host dataverse!");
-                        }
-                    }
-=======
->>>>>>> iqss/develop
                     function updateHiddenReason(textArea) {
                         $('input[id$="hiddenReasonInput"]').val(textArea.value);
                     }

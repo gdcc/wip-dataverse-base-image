@@ -121,12 +121,11 @@ public class MailServiceBean implements java.io.Serializable {
 
 
         boolean sent = false;
-        String rootDataverseName = dataverseService.findRootDataverse().getName();
         InternetAddress systemAddress = getSystemAddress(); 
         
         String body = messageText
-                + (isHtmlContent ? BundleUtil.getStringFromBundle("notification.email.closing.html", Arrays.asList(BrandingUtil.getSupportTeamEmailAddress(systemAddress), BrandingUtil.getSupportTeamName(systemAddress, rootDataverseName)))
-                        : BundleUtil.getStringFromBundle("notification.email.closing", Arrays.asList(BrandingUtil.getSupportTeamEmailAddress(systemAddress), BrandingUtil.getSupportTeamName(systemAddress, rootDataverseName))));
+                + (isHtmlContent ? BundleUtil.getStringFromBundle("notification.email.closing.html", Arrays.asList(BrandingUtil.getSupportTeamEmailAddress(systemAddress), BrandingUtil.getSupportTeamName(systemAddress)))
+                        : BundleUtil.getStringFromBundle("notification.email.closing", Arrays.asList(BrandingUtil.getSupportTeamEmailAddress(systemAddress), BrandingUtil.getSupportTeamName(systemAddress))));
        
         logger.fine("Sending email to " + to + ". Subject: <<<" + subject + ">>>. Body: " + body);
         try {
@@ -178,7 +177,7 @@ public class MailServiceBean implements java.io.Serializable {
 
     //@Resource(name="mail/notifyMailSession")
     public void sendMail(String from, String to, String subject, String messageText) {
-        sendMail(from, to, subject, messageText.replace("\\n", "\n"), new HashMap<>());
+        sendMail(from, to, subject, messageText, new HashMap<>());
     }
 
     public void sendMail(String reply, String to, String subject, String messageText, Map<Object, Object> extraHeaders) {
@@ -244,9 +243,8 @@ public class MailServiceBean implements java.io.Serializable {
         if (emailAddress != null){
            Object objectOfNotification =  getObjectOfNotification(notification);
            if (objectOfNotification != null){
-               String messageText = getMessageTextBasedOnNotification(notification, objectOfNotification, comment, requestor).replace("\\n", "\n");
-               String rootDataverseName = dataverseService.findRootDataverse().getName();
-               String subjectText = MailUtil.getSubjectTextBasedOnNotification(notification, rootDataverseName, objectOfNotification);
+               String messageText = getMessageTextBasedOnNotification(notification, objectOfNotification, comment, requestor);
+               String subjectText = MailUtil.getSubjectTextBasedOnNotification(notification, objectOfNotification);
                if (!(messageText.isEmpty() || subjectText.isEmpty())){
                    retval = sendSystemEmail(emailAddress, subjectText, messageText, isHtmlContent);
                } else {

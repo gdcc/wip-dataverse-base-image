@@ -31,6 +31,10 @@ public class BrandingUtil {
         return dataverseService.getRootDataverseName();
     }
 
+    public static String getSupportTeamName(InternetAddress systemAddress){
+        return getSupportTeamName(systemAddress, getRootDataverseCollectionName());
+    }
+
     public static String getSupportTeamName(InternetAddress systemAddress, String rootDataverseName){
         return getSupportTeamName(systemAddress, rootDataverseName, false);
     }
@@ -46,7 +50,7 @@ public class BrandingUtil {
                 return personalName;
             }
         }
-        String rootDataverseName=dataverseService.getRootDataverseName();
+//        String rootDataverseName=dataverseService.getRootDataverseName();
         if (rootDataverseName != null && !rootDataverseName.isEmpty()) {
             return rootDataverseName + " " + BundleUtil.getStringFromBundle(contactKey);
         }
